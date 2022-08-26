@@ -35,3 +35,11 @@ export const List = styled.ul`
     }
   }
 `;
+
+export const Card = styled.div`
+  position: absolute;
+  right: 5%;
+  width: 100px;
+  background-color: ${({ theme }) => theme.colors.main.graySmooth};
+  height: 200px;
+`;
