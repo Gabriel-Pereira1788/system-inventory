@@ -1,0 +1,70 @@
+export const dataC = [
+  { name: "tenis", price: 25.99, date: new Date(2022, 5, 11) },
+  { name: "tenis", price: 55.99, date: new Date(2022, 6, 12) },
+  { name: "tenis", price: 15.99, date: new Date(2022, 3, 20) },
+  { name: "tenis", price: 44.99, date: new Date(2022, 3, 20) },
+  { name: "tenis", price: 55.99, date: new Date(2022, 3, 20) },
+  { name: "tenis", price: 99.99, date: new Date(2022, 3, 20) },
+  { name: "tenis", price: 12.99, date: new Date(2022, 3, 20) },
+  { name: "tenis", price: 10.99, date: new Date(2022, 3, 20) },
+  { name: "tenis", price: 5.99, date: new Date(2022, 3, 20) },
+];
+
+export const dataSales = [
+  {
+    id_produto: 1,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 10,
+    date_sale: new Date(2022, 3, 20),
+  },
+  {
+    id_produto: 2,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 15,
+    date_sale: new Date(2022, 3, 21),
+  },
+  {
+    id_produto: 3,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 2,
+    date_sale: new Date(2022, 3, 22),
+  },
+  {
+    id_produto: 4,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 1,
+    date_sale: new Date(2022, 3, 23),
+  },
+  {
+    id_produto: 5,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 5,
+    date_sale: new Date(2022, 3, 24),
+  },
+  {
+    id_produto: 6,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 5,
+    date_sale: new Date(2022, 4, 24),
+  },
+  {
+    id_produto: 7,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 5,
+    date_sale: new Date(2022, 4, 24),
+  },
+  {
+    id_produto: 8,
+    id_usuario: "xxx1",
+    price: 55.99,
+    sales: 5,
+    date_sale: new Date(2022, 4, 24),
+  },
+];

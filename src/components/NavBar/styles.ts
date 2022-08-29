@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
+type PropsList = {
+  content?: string;
+};
+
 export const Nav = styled.nav`
+  padding: 15px;
   position: relative;
   display: flex;
   align-items: center;
@@ -17,11 +22,12 @@ export const Logo = styled.h2`
   margin-left: 5%;
 `;
 
-export const List = styled.ul`
+export const List = styled.ul<PropsList>`
   display: flex;
   flex: 1;
   list-style: none;
-  justify-content: space-evenly;
+  justify-content: ${({ content }) => (content ? content : "space-between")};
+  align-items: center;
   li {
     font-weight: 600;
     a {
@@ -37,9 +43,42 @@ export const List = styled.ul`
 `;
 
 export const Card = styled.div`
+  display: none;
   position: absolute;
   right: 5%;
   width: 100px;
   background-color: ${({ theme }) => theme.colors.main.graySmooth};
   height: 200px;
+`;
+
+export const WrapperIcon = styled.div`
+  box-shadow: 0px 3px 10px #0000001a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+`;
+
+export const ContainerIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  li {
+    cursor: pointer;
+    margin-right: 10%;
+  }
+`;
+
+export const ContainerLinks = styled.div`
+  width: 81%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  li {
+    margin: 0% 5%;
+  }
 `;

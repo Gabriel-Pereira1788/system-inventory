@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import NavVertical from "../components/NavVertical";
 import About from "../pages/About";
 import DashBoard from "../pages/DashBoard";
 import Home from "../pages/Home";
@@ -17,6 +18,7 @@ const Router = (props: Props) => {
   return (
     <BrowserRouter>
       <NavBar />
+      <NavVertical />
       <Routes>
         <Route element={<ProtectedRoutes isDefaultRoutes />}>
           <Route path="/" element={<Home />} />

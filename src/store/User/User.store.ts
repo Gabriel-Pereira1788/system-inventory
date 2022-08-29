@@ -10,13 +10,21 @@ import { auth } from "../../firebase/firebase";
 import { IForm } from "../../interfaces/IForm/IForm";
 import { dataStructureUser } from "../../utils/dataStructureUser";
 
+interface ISlice {
+  user: { uid: string; phoneNumber: string; email: string } | null;
+  loading: boolean;
+  requestSucess: boolean;
+}
+
+const initialState: ISlice = {
+  user: null,
+  loading: false,
+  requestSucess: false,
+};
+
 const user = createSlice({
   name: "user",
-  initialState: {
-    user: null,
-    loading: false,
-    requestSucess: false,
-  },
+  initialState,
   reducers: {
     loadRequest(state) {
       state.loading = true;
