@@ -1,17 +1,30 @@
 import { AnyAction, createSlice, Dispatch } from "@reduxjs/toolkit";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import { Product } from "../../modules/Product/Product";
+import { Sale } from "../../modules/Sale/Sale";
+
+interface ISlice {
+  products: Product[];
+  singleProduct: Product;
+  loading: boolean;
+  updatedProduct: boolean;
+}
+
+const initialState: ISlice = {
+  products: [],
+  singleProduct: {},
+  loading: false,
+  updatedProduct: false,
+};
 
 const products = createSlice({
   name: "products",
-  initialState: {
-    products: [],
-    singleProduct: {},
-    loading: false,
-  },
+  initialState,
   reducers: {
     loadRequest(state) {
       state.loading = true;
+      state.updatedProduct = false;
     },
 
     loadProductsSucess(state, { payload }) {

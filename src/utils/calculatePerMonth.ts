@@ -3,6 +3,7 @@ import {
   IStatiticsPerMonth,
   keyMonths,
 } from "../interfaces/Date/IDate";
+import { calculateTotal } from "./calculateTotals";
 
 const separatePerMonth = (data: any[]) => {
   const MONTHS: IMonths = {
@@ -65,7 +66,7 @@ const separatePerMonth = (data: any[]) => {
 
 const calculateTotalPerMonth = (days: any[]): IStatiticsPerMonth => {
   const sales_amount = days.reduce(
-    (acc, day) => (acc += day.price * day.sales),
+    (acc, day) => (acc += (day.priceSaled - day.pricePurchased) * day.sales),
     0
   );
   const total_piece_sales = days.reduce((acc, day) => (acc += day.sales), 0);
@@ -79,15 +80,17 @@ const calculateTotalPerMonth = (days: any[]): IStatiticsPerMonth => {
   };
 };
 
-export const calculatePerMonth = (userId: string, data: any[]) => {
+export const calculatePerMonth = (data: any[]) => {
+  // const userData = data.filter((dt) => dt.id_usuario === userId);
   const dataPerMonths = separatePerMonth(data);
   const keys = Object.keys(dataPerMonths) as keyMonths[];
-  const notEmptyMonths = Object.entries(dataPerMonths)
+  const dataTest = Object.entries(dataPerMonths)
     .filter((month) => month[1].length > 0)
     .map(([key, value]) => [key, calculateTotalPerMonth(value)])
     .reduce((acc, [key, value]) => {
       acc[key] = value;
       return acc;
     }, {});
-  console.log(notEmptyMonths);
+  console.log(dataTest);
+  return dataTest;
 };

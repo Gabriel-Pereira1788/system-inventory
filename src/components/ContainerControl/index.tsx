@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { dataC, dataSales } from "../../mock/data";
 import { calculatePerMonth } from "../../utils/calculatePerMonth";
 import CardControl from "../CardControl";
 import LineChart from "../LineChart";
 import { Container, ContainerInfos, Info, InfoProduct } from "./styles";
+import { RootState } from "../../store/store";
 type Props = {};
 
 const ContainerControl = (props: Props) => {
+  const { user } = useSelector((state: RootState) => state.user);
   const testData = {
     labels: ["Janeiro", "Feveireiro", "Abril", "Maio", "Junho", "Julho"],
     datasets: [
       {
         label: "test",
-        data: dataC.map((dt) => dt.price),
+        data: dataC.map((dt) => dt.priceSale),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
         tension: 0.1,
@@ -21,7 +24,7 @@ const ContainerControl = (props: Props) => {
   };
 
   useEffect(() => {
-    calculatePerMonth("xxx1", dataSales);
+    if (user) calculatePerMonth(dataSales);
   }, []);
   return (
     <Container>
