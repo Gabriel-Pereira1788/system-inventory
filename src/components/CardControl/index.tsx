@@ -1,6 +1,8 @@
 import React from "react";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { IStatiticsPerMonth } from "../../interfaces/Date/IDate";
+import { calculatePercentage } from "../../utils/calculatePercentage";
 
 import { Card, Info, Percentage } from "./styles";
 
@@ -8,10 +10,13 @@ type Props = {
   title: string;
   value: number;
   subTitle: string;
+  data?: IStatiticsPerMonth;
 };
 
-const CardControl = ({ title, value, subTitle }: Props) => {
-  const percentage = 60;
+const CardControl = ({ title, value, subTitle, data }: Props) => {
+  const percentage = data
+    ? calculatePercentage(data.total_piece_sales, data.storage_month)
+    : 60;
   return (
     <Card>
       <Info>
@@ -22,7 +27,7 @@ const CardControl = ({ title, value, subTitle }: Props) => {
       <Percentage>
         <CircularProgressbar
           value={percentage}
-          text={`${percentage}%`}
+          text={`${percentage.toFixed(1)}%`}
           styles={buildStyles({
             textColor: "#BBB2B2",
             trailColor: "#fff",

@@ -2,12 +2,18 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import UserReducer from "./User/User.store";
 import ProductsReducer from "./Products/Products.store";
+import StatisticsReducer from "./Statistics/Statistics.store";
 
 const store = configureStore({
   reducer: {
     user: UserReducer,
     products: ProductsReducer,
+    statistics: StatisticsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

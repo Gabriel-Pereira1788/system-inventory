@@ -1,3 +1,5 @@
+import { separatePerMonth } from "../utils/calculatePerMonth";
+
 export const dataC = [
   {
     name: "tenis",
@@ -62,7 +64,8 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 10,
-    date_sale: new Date(2022, 3, 20),
+    storage: 80,
+    date: new Date(2022, 3, 20),
   },
   {
     id_produto: 2,
@@ -70,7 +73,8 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 15,
-    date_sale: new Date(2022, 3, 21),
+    storage: 65,
+    date: new Date(2022, 3, 21),
   },
   {
     id_produto: 3,
@@ -78,7 +82,8 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 2,
-    date_sale: new Date(2022, 3, 22),
+    storage: 63,
+    date: new Date(2022, 3, 22),
   },
   {
     id_produto: 4,
@@ -86,7 +91,8 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 1,
-    date_sale: new Date(2022, 3, 23),
+    storage: 62,
+    date: new Date(2022, 3, 23),
   },
   {
     id_produto: 5,
@@ -94,7 +100,8 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 5,
-    date_sale: new Date(2022, 3, 24),
+    storage: 57,
+    date: new Date(2022, 3, 24),
   },
   {
     id_produto: 6,
@@ -102,7 +109,8 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 5,
-    date_sale: new Date(2022, 4, 24),
+    storage: 30,
+    date: new Date(2022, 4, 24),
   },
   {
     id_produto: 7,
@@ -110,7 +118,8 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 5,
-    date_sale: new Date(2022, 4, 24),
+    storage: 25,
+    date: new Date(2022, 4, 24),
   },
   {
     id_produto: 8,
@@ -118,6 +127,123 @@ export const dataSales = [
     priceSaled: 55.99,
     pricePurchased: 20.99,
     sales: 5,
-    date_sale: new Date(2022, 4, 24),
+    storage: 20,
+    date: new Date(2022, 4, 24),
+  },
+  {
+    id_produto: 9,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 30,
+    date: new Date(2022, 5, 24),
+  },
+  {
+    id_produto: 10,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 25,
+    date: new Date(2022, 5, 24),
+  },
+  {
+    id_produto: 11,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 20,
+    date: new Date(2022, 5, 24),
+  },
+  {
+    id_produto: 12,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 15,
+    date: new Date(2022, 6, 24),
+  },
+  {
+    id_produto: 13,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 10,
+    date: new Date(2022, 6, 24),
+  },
+  {
+    id_produto: 14,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 50,
+    date: new Date(2022, 7, 24),
+  },
+  {
+    id_produto: 15,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 45,
+    date: new Date(2022, 7, 24),
+  },
+  {
+    id_produto: 16,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 100,
+    date: new Date(2022, 8, 24),
+  },
+  {
+    id_produto: 17,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 95,
+    date: new Date(2022, 8, 24),
+  },
+  {
+    id_produto: 18,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 90,
+    date: new Date(2022, 9, 24),
+  },
+  {
+    id_produto: 19,
+    id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+    priceSaled: 55.99,
+    pricePurchased: 20.99,
+    sales: 5,
+    storage: 85,
+    date: new Date(2022, 9, 24),
   },
 ];
+
+export const dataTestPurhcased = Object.entries(separatePerMonth(dataSales))
+  .map(([key, value], index) => {
+    if (value.saled.length > 0) {
+      return {
+        id_purchased: 1,
+        id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
+        pricePurchased: 20.99,
+        purchased: 10 * index + 1,
+        date: new Date(2022, index + 1, 24),
+      };
+    }
+    return value;
+  })
+  .filter((value) => !Array.isArray(value));
+
+// console.log(dataTestPurhcased);

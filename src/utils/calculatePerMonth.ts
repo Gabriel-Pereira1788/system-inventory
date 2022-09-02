@@ -2,95 +2,118 @@ import {
   IMonths,
   IStatiticsPerMonth,
   keyMonths,
+  keyMonthsData,
 } from "../interfaces/Date/IDate";
 import { calculateTotal } from "./calculateTotals";
 
-const separatePerMonth = (data: any[]) => {
+export const separatePerMonth = (data: any[], dataPurchased?: any[]) => {
   const MONTHS: IMonths = {
-    janeiro: [],
-    feveireiro: [],
-    março: [],
-    abril: [],
-    maio: [],
-    junho: [],
-    julho: [],
-    agosto: [],
-    setembro: [],
-    outubro: [],
-    novembro: [],
-    dezembro: [],
+    janeiro: { saled: [], purchased: [] },
+    feveireiro: { saled: [], purchased: [] },
+    março: { saled: [], purchased: [] },
+    abril: { saled: [], purchased: [] },
+    maio: { saled: [], purchased: [] },
+    junho: { saled: [], purchased: [] },
+    julho: { saled: [], purchased: [] },
+    agosto: { saled: [], purchased: [] },
+    setembro: { saled: [], purchased: [] },
+    outubro: { saled: [], purchased: [] },
+    novembro: { saled: [], purchased: [] },
+    dezembro: { saled: [], purchased: [] },
   };
-  data.forEach((sales) => {
-    const month = new Date(sales.date_sale).getMonth();
-    switch (month) {
-      case 0:
-        MONTHS.janeiro.push(sales);
-        break;
-      case 1:
-        MONTHS.feveireiro.push(sales);
-        break;
-      case 2:
-        MONTHS.março.push(sales);
-        break;
-      case 3:
-        MONTHS.abril.push(sales);
-        break;
-      case 4:
-        MONTHS.maio.push(sales);
-        break;
-      case 5:
-        MONTHS.junho.push(sales);
-        break;
-      case 6:
-        MONTHS.julho.push(sales);
-        break;
-      case 7:
-        MONTHS.agosto.push(sales);
-        break;
-      case 8:
-        MONTHS.setembro.push(sales);
-        break;
-      case 9:
-        MONTHS.outubro.push(sales);
-        break;
-      case 10:
-        MONTHS.novembro.push(sales);
-        break;
-      case 11:
-        MONTHS.dezembro.push(sales);
-        break;
-    }
-  });
+  const separete = (data: any[], key: keyMonthsData) => {
+    data.forEach((sales) => {
+      const month = new Date(sales.date).getMonth();
+      switch (month) {
+        case 0:
+          MONTHS.janeiro[key].push(sales);
+          break;
+        case 1:
+          MONTHS.feveireiro[key].push(sales);
+          break;
+        case 2:
+          MONTHS.março[key].push(sales);
+          break;
+        case 3:
+          MONTHS.abril[key].push(sales);
+          break;
+        case 4:
+          MONTHS.maio[key].push(sales);
+          break;
+        case 5:
+          MONTHS.junho[key].push(sales);
+          break;
+        case 6:
+          MONTHS.julho[key].push(sales);
+          break;
+        case 7:
+          MONTHS.agosto[key].push(sales);
+          break;
+        case 8:
+          MONTHS.setembro[key].push(sales);
+          break;
+        case 9:
+          MONTHS.outubro[key].push(sales);
+          break;
+        case 10:
+          MONTHS.novembro[key].push(sales);
+          break;
+        case 11:
+          MONTHS.dezembro[key].push(sales);
+          break;
+      }
+    });
+  };
+
+  separete(data, "saled");
+  if (dataPurchased) separete(dataPurchased, "purchased");
   return MONTHS;
 };
 
-const calculateTotalPerMonth = (days: any[]): IStatiticsPerMonth => {
-  const sales_amount = days.reduce(
+const calculateTotalPerMonth = (
+  daysSaled: any[],
+  daysPurchased: any[]
+): IStatiticsPerMonth => {
+  const sales_amount = daysSaled.reduce(
     (acc, day) => (acc += (day.priceSaled - day.pricePurchased) * day.sales),
     0
   );
-  const total_piece_sales = days.reduce((acc, day) => (acc += day.sales), 0);
-  const maxSaled = Math.max(...days.map((day) => day.sales));
-  const best_selling = days.find((day) => day.sales === maxSaled);
+  const total_piece_sales = daysSaled.reduce(
+    (acc, day) => (acc += day.sales),
+    0
+  );
+  const maxSaled = Math.max(...daysSaled.map((day) => day.sales));
+  const best_selling = daysSaled.find((day) => day.sales === maxSaled);
+  const storage_month = daysPurchased.reduce(
+    (acc, day) => (acc += day.purchased),
+    0
+  );
+  // best_selling.data_sale = best_selling.date_sale.toString();
 
   return {
     total_piece_sales,
     sales_amount,
     best_selling,
+    storage_month,
   };
 };
 
-export const calculatePerMonth = (data: any[]) => {
-  // const userData = data.filter((dt) => dt.id_usuario === userId);
-  const dataPerMonths = separatePerMonth(data);
-  const keys = Object.keys(dataPerMonths) as keyMonths[];
-  const dataTest = Object.entries(dataPerMonths)
-    .filter((month) => month[1].length > 0)
-    .map(([key, value]) => [key, calculateTotalPerMonth(value)])
+export const calculatePerMonth = (dataSale: any[], dataPurchased: any[]) => {
+  /*Refatorar logica para melhor junção dos dois dados */
+
+  const dataPerMonths = separatePerMonth(dataSale, dataPurchased);
+
+  const dataTest: { [index: string]: IStatiticsPerMonth } = Object.entries(
+    dataPerMonths
+  )
+    .filter(([key, value]) => value.saled.length > 0)
+    .map(([key, value], index) => {
+      return [key, calculateTotalPerMonth(value.saled, value.purchased)];
+    })
     .reduce((acc, [key, value]) => {
       acc[key] = value;
       return acc;
     }, {});
-  console.log(dataTest);
+  // console.log(dataTest);
   return dataTest;
 };

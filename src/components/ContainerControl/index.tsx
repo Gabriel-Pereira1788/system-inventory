@@ -6,10 +6,20 @@ import CardControl from "../CardControl";
 import LineChart from "../LineChart";
 import { Container, ContainerInfos, Info, InfoProduct } from "./styles";
 import { RootState } from "../../store/store";
+import { MONTHS_DATA } from "../../mock/monthsData";
+import { getRelevantStatistics } from "../../utils/relevantStatistics";
 type Props = {};
 
 const ContainerControl = (props: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
+  const { statisticsMonths, statisticsTotal } = useSelector(
+    (slice: RootState) => slice.statistics
+  );
+
+  const statisticsRelevant =
+    statisticsMonths && getRelevantStatistics(statisticsMonths);
+  console.log(statisticsRelevant);
+
   const testData = {
     labels: ["Janeiro", "Feveireiro", "Abril", "Maio", "Junho", "Julho"],
     datasets: [
@@ -23,9 +33,9 @@ const ContainerControl = (props: Props) => {
     ],
   };
 
-  useEffect(() => {
-    if (user) calculatePerMonth(dataSales);
-  }, []);
+  // useEffect(() => {
+  //   // if (user) calculatePerMonth(dataSales);
+  // }, []);
   return (
     <Container>
       <InfoProduct className="main-graph card">
@@ -45,9 +55,23 @@ const ContainerControl = (props: Props) => {
         </Info>
       </InfoProduct>
       <div className="cards">
-        <CardControl title="Total" value={2000} subTitle="ultimo mes" />
-        <CardControl title="Total" value={2000} subTitle="ultimo mes" />
-        <CardControl title="Total" value={2000} subTitle="ultimo mes" />
+        {statisticsRelevant?.data_last_month && (
+          <CardControl
+            title="Renda total"
+            data={statisticsRelevant.data_last_month}
+            value={statisticsRelevant.data_last_month.sales_amount}
+            subTitle="ultimo mes"
+          />
+        )}
+        {statisticsRelevant?.data_current_month && (
+          <CardControl
+            title="Total"
+            data={statisticsRelevant.data_current_month}
+            value={statisticsRelevant.data_current_month.sales_amount}
+            subTitle="um mes"
+          />
+        )}
+        <CardControl title="Total" value={2000} subTitle="Durante 5 meses" />
       </div>
       <div className="graph-line card">
         <LineChart chartData={testData} />

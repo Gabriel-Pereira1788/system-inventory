@@ -1,14 +1,28 @@
 import { AnyAction, createSlice, Dispatch } from "@reduxjs/toolkit";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import {
+  IStatiticsPerMonth,
+  IStatiticsTotal,
+} from "../../interfaces/Date/IDate";
+import { dataTestPurhcased } from "../../mock/data";
 import { Sale } from "../../modules/Sale/Sale";
 import { calculatePerMonth } from "../../utils/calculatePerMonth";
 import { calculateTotal } from "../../utils/calculateTotals";
 
-const initialState = {
+type Slice = {
+  loading: boolean;
+  statisticsTotal: IStatiticsTotal | null;
+  statisticsMonths: { [index: string]: IStatiticsPerMonth } | null;
+  statisticsYear: Object;
+  lastSale: Object;
+  updated: boolean;
+};
+
+const initialState: Slice = {
   loading: false,
-  statisticsTotal: {},
-  statisticsMonths: {},
+  statisticsTotal: null,
+  statisticsMonths: null,
   statisticsYear: {},
   lastSale: {},
   updated: false,
@@ -23,7 +37,7 @@ export const sales = createSlice({
       state.updated = false;
     },
     getStatistics(state, { payload }) {
-      const data_month = calculatePerMonth(payload);
+      const data_month = calculatePerMonth(payload, dataTestPurhcased);
       const data_total = calculateTotal(data_month);
 
       state.loading = false;
