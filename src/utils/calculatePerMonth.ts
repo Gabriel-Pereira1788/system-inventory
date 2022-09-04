@@ -1,9 +1,5 @@
-import {
-  IMonths,
-  IStatiticsPerMonth,
-  keyMonths,
-  keyMonthsData,
-} from "../interfaces/Date/IDate";
+import { IMonths, keyMonths, keyMonthsData } from "../interfaces/Date/IDate";
+import { IStatiticsPerMonth } from "../interfaces/IStatistics/IStatistics";
 import { calculateTotal } from "./calculateTotals";
 
 export const separatePerMonth = (data: any[], dataPurchased?: any[]) => {

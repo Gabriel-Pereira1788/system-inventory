@@ -8,6 +8,9 @@ import { Container, ContainerInfos, Info, InfoProduct } from "./styles";
 import { RootState } from "../../store/store";
 import { MONTHS_DATA } from "../../mock/monthsData";
 import { getRelevantStatistics } from "../../utils/relevantStatistics";
+import { IRelevantStatistics } from "../../interfaces/IStatistics/IStatistics";
+import { ChartOptions } from "chart.js";
+import { IChart } from "../../interfaces/IChart/IChart";
 type Props = {};
 
 const ContainerControl = (props: Props) => {
@@ -15,22 +18,35 @@ const ContainerControl = (props: Props) => {
   const { statisticsMonths, statisticsTotal } = useSelector(
     (slice: RootState) => slice.statistics
   );
+  console.log(statisticsMonths);
 
-  const statisticsRelevant =
-    statisticsMonths && getRelevantStatistics(statisticsMonths);
-  console.log(statisticsRelevant);
+  const [labels, setLabels] = useState<string[]>([]);
+  const [statisticsRelevant, setStatisticsRelevant] =
+    useState<IRelevantStatistics | null>(null);
+  const [optionChart, setOptionChart] = useState<IChart>({
+    label: "test",
+    data: [],
+    borderColor: "#ECD64F",
+    backgroundColor: "#ECD64F",
+    tension: 0.4,
+  });
 
-  const testData = {
-    labels: ["Janeiro", "Feveireiro", "Abril", "Maio", "Junho", "Julho"],
-    datasets: [
-      {
-        label: "test",
-        data: dataC.map((dt) => dt.priceSale),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-        tension: 0.1,
-      },
-    ],
+  useEffect(() => {
+    if (statisticsMonths) {
+      const keys = Object.keys(statisticsMonths);
+      const relevantData = getRelevantStatistics(statisticsMonths);
+      const dataChart = Object.values(statisticsMonths).map(
+        (month) => month.total_piece_sales
+      );
+      setLabels(keys);
+      setStatisticsRelevant(relevantData);
+      setOptionChart((prevState) => ({ ...prevState, data: dataChart }));
+    }
+  }, [statisticsMonths]);
+
+  const optionsChart = {
+    labels: labels,
+    datasets: [optionChart],
   };
 
   // useEffect(() => {
@@ -42,11 +58,11 @@ const ContainerControl = (props: Props) => {
         <ContainerInfos>
           <Info>
             <h3>vendidos</h3>
-            <span>2200</span>
+            <span>{statisticsTotal && statisticsTotal.total_pieces_sales}</span>
           </Info>
           <Info>
             <h3>disponiveis</h3>
-            <span>1100</span>
+            <span>{statisticsTotal && statisticsTotal.total_storage}</span>
           </Info>
         </ContainerInfos>
         <Info>
@@ -74,7 +90,7 @@ const ContainerControl = (props: Props) => {
         <CardControl title="Total" value={2000} subTitle="Durante 5 meses" />
       </div>
       <div className="graph-line card">
-        <LineChart chartData={testData} />
+        <LineChart chartData={optionsChart} />
       </div>
     </Container>
   );

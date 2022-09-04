@@ -1,9 +1,13 @@
 import { IMonths, IStatiticsPerMonth } from "../interfaces/Date/IDate";
+import { IProduct } from "../interfaces/IProduct/IProduct";
 
-export const calculateTotal = (data: {
-  [index: string]: IStatiticsPerMonth;
-}) => {
-  const totalSales = Object.values(data).reduce(
+export const calculateTotal = (
+  data: {
+    [index: string]: IStatiticsPerMonth;
+  },
+  allProducts: IProduct[]
+) => {
+  const total_sales = Object.values(data).reduce(
     (acc, value) => (acc += value.sales_amount),
     0
   );
@@ -11,8 +15,13 @@ export const calculateTotal = (data: {
     (acc, value) => (acc += value.total_piece_sales),
     0
   );
+  const total_storage = allProducts.reduce(
+    (acc, product) => (acc += product.storage),
+    0
+  );
   return {
-    totalSales,
+    total_sales,
     total_pieces_sales,
+    total_storage,
   };
 };

@@ -4,8 +4,8 @@ import { db } from "../../firebase/firebase";
 import {
   IStatiticsPerMonth,
   IStatiticsTotal,
-} from "../../interfaces/Date/IDate";
-import { dataTestPurhcased } from "../../mock/data";
+} from "../../interfaces/IStatistics/IStatistics";
+import { dataC, dataTestPurhcased } from "../../mock/data";
 import { Sale } from "../../modules/Sale/Sale";
 import { calculatePerMonth } from "../../utils/calculatePerMonth";
 import { calculateTotal } from "../../utils/calculateTotals";
@@ -38,7 +38,7 @@ export const sales = createSlice({
     },
     getStatistics(state, { payload }) {
       const data_month = calculatePerMonth(payload, dataTestPurhcased);
-      const data_total = calculateTotal(data_month);
+      const data_total = calculateTotal(data_month, dataC);
 
       state.loading = false;
       state.statisticsTotal = { ...data_total };
@@ -64,6 +64,12 @@ export function asyncGetStatistics(idUser: string) {
 }
 
 export function asyncSaleProduct(sale: Sale) {
+  return async function (dispatch: Dispatch<AnyAction>) {
+    dispatch(loadRequest());
+  };
+}
+
+export function asyncPurchaseProduct(purchased: any) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
   };
