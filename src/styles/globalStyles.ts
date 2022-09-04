@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
  }
  body{
-   background: #EBEBEB;
+   background: #ebebeb3b;
    font-family: 'Inter',sans-serif;
  }
  ul{

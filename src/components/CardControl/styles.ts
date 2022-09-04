@@ -1,11 +1,15 @@
 import styled from "styled-components";
 
-export const Card = styled.article`
+type PropsCard = {
+  width?: string;
+};
+
+export const Card = styled.article<PropsCard>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  width: 30%;
+  width: ${({ width }) => (width ? width : "30%")};
   padding: 15px;
   border-radius: 15px;
   box-shadow: 0px 3px 10px #0000001a;
@@ -15,6 +19,7 @@ export const Info = styled.div`
   border-radius: 0;
   box-shadow: none;
   h3 {
+    width: 63px;
     color: ${({ theme }) => theme.colors.main.colorText};
     font-size: clamp(0.2em, 1.5vw, 0.7em);
   }
@@ -31,4 +36,10 @@ export const Percentage = styled.div`
   justify-content: center;
   border-radius: 50%;
   padding: 10px;
+`;
+
+export const ContainerCard = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;

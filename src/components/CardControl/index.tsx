@@ -11,14 +11,15 @@ type Props = {
   value: number;
   subTitle: string;
   data?: IStatiticsPerMonth;
+  width?: string;
 };
 
-const CardControl = ({ title, value, subTitle, data }: Props) => {
+const CardControl = ({ title, value, subTitle, data, width }: Props) => {
   const percentage = data
     ? calculatePercentage(data.total_piece_sales, data.storage_month)
     : 60;
   return (
-    <Card>
+    <Card width={width}>
       <Info>
         <h3>{title}</h3>
         <span>{value}</span>

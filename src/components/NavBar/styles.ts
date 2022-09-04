@@ -32,7 +32,7 @@ export const List = styled.ul<PropsList>`
     font-weight: 600;
     a {
       padding: 15px;
-      text-shadow: -1px 1px 7px #0908084f;
+      text-shadow: 0px 1px 4px #0908082b;
       color: white;
     }
     .active {
@@ -52,7 +52,7 @@ export const Card = styled.div`
 `;
 
 export const WrapperIcon = styled.div`
-  box-shadow: 0px 3px 10px #0000001a;
+  box-shadow: 0px 2px 4px #00000024;
   display: flex;
   flex-direction: column;
   align-items: center;

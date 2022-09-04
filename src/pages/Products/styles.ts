@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export type PropsInformation = {
+  showInformation?: boolean;
+};
+
 export const Container = styled.main`
   width: 100%;
   height: 100%;
@@ -49,6 +53,7 @@ export const Table = styled.table`
   tbody {
     border-collapse: separate;
     td {
+      cursor: pointer;
       padding: 5px;
       font-size: clamp(0.2em, 1vw, 1em);
       text-align: center;
@@ -58,15 +63,19 @@ export const Table = styled.table`
 `;
 
 export const Button = styled.button`
+  width: 150px;
   transition: all 0.3s;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 13px;
   margin: 2% 0% 2% 0%;
   border-radius: 15px;
   background-color: ${({ theme }) => theme.colors.main.dark};
   &:hover {
     background-color: #62626296;
+  }
+  span {
+    font-size: 11px;
   }
 `;
 
@@ -86,4 +95,13 @@ export const ContainerTable = styled.div`
   height: 400px;
   overflow: auto;
   box-shadow: 0px 3px 10px #0000001a;
+`;
+
+export const RowInformation = styled.tr<PropsInformation>`
+  transform: translateY(-100%);
+  transition: all 0.3s;
+  cursor: none;
+  height: 500px;
+  background-color: #fff;
+  box-shadow: inset 0px 0px 6px 0px #0000004f;
 `;
