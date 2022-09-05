@@ -73,6 +73,7 @@ const ContainerControl = (props: Props) => {
       <div className="cards">
         {statisticsRelevant?.data_last_month && (
           <CardControl
+            showPercentage
             title="Renda total"
             data={statisticsRelevant.data_last_month}
             value={statisticsRelevant.data_last_month.sales_amount}
@@ -81,13 +82,19 @@ const ContainerControl = (props: Props) => {
         )}
         {statisticsRelevant?.data_current_month && (
           <CardControl
+            showPercentage
             title="Total"
             data={statisticsRelevant.data_current_month}
             value={statisticsRelevant.data_current_month.sales_amount}
             subTitle="um mes"
           />
         )}
-        <CardControl title="Total" value={2000} subTitle="Durante 5 meses" />
+        <CardControl
+          showPercentage
+          title="Total"
+          value={2000}
+          subTitle="Durante 5 meses"
+        />
       </div>
       <div className="graph-line card">
         <LineChart chartData={optionsChart} />
