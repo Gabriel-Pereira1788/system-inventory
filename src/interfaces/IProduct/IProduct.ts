@@ -1,4 +1,4 @@
-export interface IProduct {
+export interface ITestProduct {
   name: string;
   priceSale: number;
   storage: number;
@@ -13,3 +13,12 @@ export interface IProduct {
 //     pricePurchased: 10.0,
 //     date: new Date(2022, 5, 11),
 //   },
+
+export interface IProduct {
+  id_product?: string;
+  name_product: string;
+  price_saled: number;
+  storage: number;
+  price_purchased: number;
+  id_usuario: string;
+}

@@ -2,10 +2,13 @@ import React from "react";
 import Row from "./Row";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Column, ContainerTable, LabelSearch, Search, Thead } from "./styles";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 type Props = {};
 
-const TableProducts = (props: Props) => {
+const Table = (props: Props) => {
+  const { products } = useSelector((slice: RootState) => slice.products);
   return (
     <>
       <Thead>
@@ -21,14 +24,13 @@ const TableProducts = (props: Props) => {
         </Column>
       </Thead>
       <ContainerTable>
-        <Row />
-        <Row />
-        <Row />
-        <Row />
-        <Row />
+        {products.length > 0 &&
+          products.map((product) => (
+            <Row {...product} key={product.id_product} />
+          ))}
       </ContainerTable>
     </>
   );
 };
 
-export default TableProducts;
+export default Table;

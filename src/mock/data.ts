@@ -1,7 +1,7 @@
-import { IProduct } from "../interfaces/IProduct/IProduct";
+import { ITestProduct } from "../interfaces/IProduct/IProduct";
 import { separatePerMonth } from "../utils/calculatePerMonth";
 
-export const dataC: IProduct[] = [
+export const dataC: ITestProduct[] = [
   {
     name: "tenis",
     priceSale: 25.99,

@@ -2,10 +2,12 @@ import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { CellButton, CellRow, ContainerRow, Wrapper } from "./styles";
 import InfoProduct from "../InfoProduct";
+import { IProduct } from "../../interfaces/IProduct/IProduct";
 
 type Props = {};
 
-const Row = (props: Props) => {
+const Row = (product: IProduct) => {
+  const { name_product, price_purchased, price_saled, storage } = product;
   const [show, setShow] = useState(false);
 
   const handleShowInformation = () => {
@@ -14,15 +16,15 @@ const Row = (props: Props) => {
   return (
     <Wrapper>
       <ContainerRow>
-        <CellRow>Tenis</CellRow>
-        <CellRow>59.99</CellRow>
-        <CellRow>59.99</CellRow>
-        <CellRow>40</CellRow>
+        <CellRow>{name_product}</CellRow>
+        <CellRow> {price_purchased} </CellRow>
+        <CellRow> {price_saled} </CellRow>
+        <CellRow> {storage} </CellRow>
         <CellButton showInformation={show} width="250px">
           <KeyboardArrowDownIcon onClick={handleShowInformation} />
         </CellButton>
       </ContainerRow>
-      <InfoProduct showInformation={show} />
+      <InfoProduct showInformation={show} product={product} />
     </Wrapper>
   );
 };

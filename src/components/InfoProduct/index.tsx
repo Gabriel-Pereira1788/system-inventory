@@ -19,12 +19,15 @@ import {
   BsCheckCircle,
 } from "react-icons/bs";
 import CardControl from "../CardControl";
+import { IProduct } from "../../interfaces/IProduct/IProduct";
 
 type Props = {
   showInformation: boolean;
+  product: IProduct;
 };
 
-const InfoProduct = ({ showInformation }: Props) => {
+const InfoProduct = ({ showInformation, product }: Props) => {
+  const { name_product, price_purchased, price_saled, storage } = product;
   return (
     <ContainerInfo showInformation={showInformation}>
       {showInformation && (
@@ -53,24 +56,24 @@ const InfoProduct = ({ showInformation }: Props) => {
                 showPercentage
                 width="20%"
                 title="Em estoque"
-                value={200}
+                value={storage}
               />
             </ContainerCard>
             <Form>
               <WrapperInputs>
                 <Label>
                   <Text>Nome:</Text>
-                  <Input type="text" value="tenis" />
+                  <Input type="text" value={name_product} />
                   <BsFillPencilFill />
                 </Label>
                 <Label>
                   <Text>Preço C.:</Text>
-                  <Input type="text" value="59.99" />
+                  <Input type="text" value={price_purchased} />
                   <BsFillPencilFill />
                 </Label>
                 <Label>
                   <Text>Preço V:</Text>
-                  <Input type="text" value="59.99" />
+                  <Input type="text" value={price_saled} />
                   <BsFillPencilFill />
                 </Label>
                 <Label>
