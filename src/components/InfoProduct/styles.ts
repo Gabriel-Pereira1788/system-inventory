@@ -74,11 +74,13 @@ export const Input = styled.input`
   text-align: center;
   font-weight: bold;
   width: 78%;
-  background-color: #efeded;
   border: none;
   outline: none;
   padding: 7.5px;
   border-radius: 0px 8px 8px 0px;
+  &:disabled {
+    background-color: #efeded;
+  }
 `;
 
 export const Text = styled.span`
@@ -100,4 +102,7 @@ export const ConfirmButton = styled.button`
   border-radius: 8px;
   color: #fff;
   margin-right: 4%;
+  &:disabled {
+    background-color: #d1cece;
+  }
 `;

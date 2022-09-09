@@ -41,7 +41,6 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
     if (user) {
       const dataComplete: IProduct = { ...data, id_usuario: user.uid };
       await dispatch(asyncCreateProduct(dataComplete));
-      // console.log(product);
 
       handleClose();
     }

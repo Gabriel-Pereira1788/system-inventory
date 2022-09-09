@@ -30,6 +30,7 @@ export const GlobalStyle = createGlobalStyle`
   padding: 15px 20px;
   border-radius: 15px;
   color:white;
+  transition: all 0.3s;
  }
 
 `;

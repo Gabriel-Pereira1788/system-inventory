@@ -10,10 +10,12 @@ type Props = {};
 
 const Products = (props: Props) => {
   const { user } = useSelector((slice: RootState) => slice.user);
+  const { updatedProduct } = useSelector((slice: RootState) => slice.products);
 
   const dispatch = useAppDispatch();
 
   const [openModal, setOpenModal] = useState(false);
+
   const handleToggleModal = (action: "open" | "close") => {
     return () => {
       if (action === "open") setOpenModal(true);
@@ -23,7 +25,7 @@ const Products = (props: Props) => {
 
   useEffect(() => {
     if (user) dispatch(asyncLoadProducts(user.uid));
-  }, []);
+  }, [updatedProduct]);
   return (
     <>
       <Container>

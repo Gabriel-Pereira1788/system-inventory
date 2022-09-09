@@ -2,6 +2,7 @@ import { AnyAction, createSlice, Dispatch } from "@reduxjs/toolkit";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -33,11 +34,9 @@ const products = createSlice({
   reducers: {
     loadRequest(state) {
       state.loading = true;
-      state.updatedProduct = false;
     },
     loadRequestFailed(state, { payload }) {
       state.loading = false;
-      state.updatedProduct = false;
       console.log(payload);
     },
     loadProductsSucess(state, { payload }) {
@@ -47,7 +46,7 @@ const products = createSlice({
     },
     updateProduct(state) {
       state.loading = false;
-      state.updatedProduct = true;
+      state.updatedProduct = !state.updatedProduct;
     },
   },
 });
@@ -83,6 +82,19 @@ export function asyncCreateProduct(product: IProduct) {
       dispatch(loadRequest());
       await addDoc(collection(db, "products"), product);
 
+      return dispatch(updateProduct());
+    } catch (error: any) {
+      return dispatch(loadRequestFailed(error.message));
+    }
+  };
+}
+
+export function asyncDeleteProduct(idProduct: string) {
+  return async function (dispatch: Dispatch<AnyAction>) {
+    try {
+      dispatch(loadRequest());
+      const response = await deleteDoc(doc(db, "products", idProduct));
+      console.log(response);
       return dispatch(updateProduct());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
