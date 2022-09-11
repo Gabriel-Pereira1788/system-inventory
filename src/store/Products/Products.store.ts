@@ -3,6 +3,7 @@ import {
   addDoc,
   collection,
   deleteDoc,
+  updateDoc,
   doc,
   getDocs,
   query,
@@ -10,6 +11,12 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import {
+  IDataEdit,
+  IDataPurchased,
+  IDataSaled,
+  IFormEdit,
+} from "../../interfaces/IForm/IFormEdit";
 import { IProduct } from "../../interfaces/IProduct/IProduct";
 import { Product } from "../../modules/Product/Product";
 import { Sale } from "../../modules/Sale/Sale";
@@ -64,7 +71,7 @@ export function asyncLoadProducts(idUser: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
     const productsRef = collection(db, "products");
-    const q = query(productsRef, where("id_usuario", "==", idUser));
+    const q = query(productsRef, where("id_user", "==", idUser));
     const querySnapshot = await getDocs(q);
 
     const allProducts = querySnapshot.docs.map((doc) => {
@@ -98,6 +105,52 @@ export function asyncDeleteProduct(idProduct: string) {
       return dispatch(updateProduct());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
+    }
+  };
+}
+
+export function asyncUpdateProduct(
+  idProduct: string,
+  newDataProduct: IDataEdit
+) {
+  return async function (dispatch: Dispatch<AnyAction>) {
+    try {
+      dispatch(loadRequest());
+      const response = await updateDoc(doc(db, "products", idProduct), {
+        ...newDataProduct,
+      });
+      console.log(response);
+      return dispatch(updateProduct());
+    } catch (error: any) {
+      return dispatch(loadRequestFailed(error.message));
+    }
+  };
+}
+
+export function asyncUpdateStorage(
+  data: IDataSaled | IDataPurchased,
+  product: IProduct,
+  idUser: string,
+  collectionDoc: string
+) {
+  return async function (dispatch: Dispatch<AnyAction>) {
+    const { storage, id_product, price_purchased, price_saled } = product;
+    const dataSubmit = {
+      storage,
+      id_user: idUser,
+      id_product,
+      price_purchased,
+      price_saled,
+      date: new Date(),
+      ...data,
+    };
+
+    try {
+      dispatch(loadRequest());
+      await addDoc(collection(db, collectionDoc), dataSubmit);
+      return dispatch(updateProduct());
+    } catch (error: any) {
+      dispatch(loadRequestFailed(error.message));
     }
   };
 }

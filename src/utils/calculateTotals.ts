@@ -1,11 +1,11 @@
 import { IMonths, IStatiticsPerMonth } from "../interfaces/Date/IDate";
-import { IProduct } from "../interfaces/IProduct/IProduct";
+import { IProduct, ITestProduct } from "../interfaces/IProduct/IProduct";
 
 export const calculateTotal = (
   data: {
     [index: string]: IStatiticsPerMonth;
   },
-  allProducts: IProduct[]
+  allProducts: ITestProduct[]
 ) => {
   const total_sales = Object.values(data).reduce(
     (acc, value) => (acc += value.sales_amount),

@@ -20,9 +20,22 @@ import {
 } from "react-icons/bs";
 import CardControl from "../CardControl";
 import { IProduct } from "../../interfaces/IProduct/IProduct";
-import { useForm } from "react-hook-form";
-import InputEdit from "./InputEdit";
+import { useForm, SubmitHandler } from "react-hook-form";
 import ModalDelete from "../ModalDelete";
+import { defaultEditForm } from "../../mock/defaultEditForm";
+import { IFormEdit } from "../../interfaces/IForm/IFormEdit";
+import DataEdit from "./DataEdit";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaEdit } from "../../schemas/schemaEditProduct";
+import DataStorage from "./DataStorage";
+import { Sale } from "../../modules/Sale/Sale";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../store/store";
+import { cleanValues } from "../../utils/cleanEmptyValues";
+import {
+  asyncUpdateProduct,
+  asyncUpdateStorage,
+} from "../../store/Products/Products.store";
 
 type Props = {
   showInformation: boolean;
@@ -30,8 +43,10 @@ type Props = {
 };
 
 const InfoProduct = ({ showInformation, product }: Props) => {
-  const { name_product, price_purchased, price_saled, storage, id_product } =
-    product;
+  const { user } = useSelector((state: RootState) => state.user);
+  const { loading } = useSelector((state: RootState) => state.products);
+  const dispatch = useAppDispatch();
+  const { storage, id_product, price_purchased, price_saled } = product;
 
   const {
     register,
@@ -40,36 +55,21 @@ const InfoProduct = ({ showInformation, product }: Props) => {
     watch,
     handleSubmit,
   } = useForm({
-    defaultValues: {
-      name_product,
-      price_purchased,
-      price_saled,
-      sale: true,
-      purchase: false,
-    },
+    defaultValues: defaultEditForm,
+    resolver: yupResolver(schemaEdit),
   });
+
+  console.log(errors);
 
   const [openModal, setOpenModal] = useState(false);
 
-  const watchSale = watch("sale");
-  const watchPurchase = watch("purchase");
-  const [editField, setEditField] = useState({
-    name_product: false,
-    price_purchased: false,
-    price_saled: false,
-  });
+  const watchSale = watch("dataSaled.sale");
+  const watchPurchase = watch("dataPurchased.purchase");
+  const watchName = watch("dataEdit.show_name");
+  const watchPricePurchased = watch("dataEdit.show_price_purchased");
+  const watchPriceSaled = watch("dataEdit.show_price_saled");
 
   const [allInputsDisabled, setAllInputsDisabled] = useState(false);
-
-  const handleSetEditState = (
-    name: "name_product" | "price_purchased" | "price_saled",
-    value: boolean
-  ) => {
-    return () => {
-      setValue(name, "");
-      setEditField((prevState) => ({ ...prevState, [name]: value }));
-    };
-  };
 
   const handleToggleModal = (action: "close" | "open") => {
     return () => {
@@ -78,18 +78,55 @@ const InfoProduct = ({ showInformation, product }: Props) => {
     };
   };
 
+  const handleSubmitData: SubmitHandler<IFormEdit> = (data: IFormEdit) => {
+    const cleanData = cleanValues(data);
+    const notEmptyDataEdit = Object.values(cleanData.dataEdit).length > 0;
+    const notEmptyDataPurchased =
+      Object.values(cleanData.dataPurchased).length > 0;
+    const notEmptyDataSaled = Object.values(cleanData.dataSaled).length > 0;
+
+    if (notEmptyDataEdit && user) {
+      const dataTest = {
+        storage,
+        id_user: user.uid,
+        ...cleanData.dataEdit,
+      };
+      console.log(dataTest);
+      dispatch(asyncUpdateProduct(id_product!, dataTest));
+    }
+    if (notEmptyDataSaled && user) {
+      dispatch(
+        asyncUpdateStorage(cleanData.dataSaled, product, user.uid, "sales")
+      );
+    }
+    if (notEmptyDataPurchased && user) {
+      dispatch(
+        asyncUpdateStorage(
+          cleanData.dataPurchased,
+          product,
+          user.uid,
+          "purchases"
+        )
+      );
+    }
+  };
+
   useEffect(() => {
     const notUpdateStorage = !watchSale && !watchPurchase;
     const notEditProduct =
-      !editField.name_product &&
-      !editField.price_purchased &&
-      !editField.price_saled;
+      !watchName && !watchPricePurchased && !watchPriceSaled;
     if (notUpdateStorage && notEditProduct) {
       setAllInputsDisabled(true);
     } else {
       setAllInputsDisabled(false);
     }
-  }, [watchSale, watchPurchase, editField]);
+  }, [
+    watchSale,
+    watchPurchase,
+    watchName,
+    watchPricePurchased,
+    watchPriceSaled,
+  ]);
 
   return (
     <>
@@ -123,62 +160,21 @@ const InfoProduct = ({ showInformation, product }: Props) => {
                   value={storage}
                 />
               </ContainerCard>
-              <Form>
+              <Form onSubmit={handleSubmit(handleSubmitData)}>
                 <WrapperInputs>
-                  <InputEdit
-                    text="Nome"
+                  <DataEdit
+                    defaultValues={product}
                     register={register}
-                    stateField={editField.name_product}
-                    editStateField={handleSetEditState}
-                    defaultValue={name_product}
-                    name="name_product"
+                    setValue={setValue}
+                    watchName={watchName}
+                    watchPricePurchased={watchPricePurchased}
+                    watchPriceSaled={watchPriceSaled}
                   />
-                  <InputEdit
-                    text="Preço C."
+                  <DataStorage
                     register={register}
-                    stateField={editField.price_purchased}
-                    editStateField={handleSetEditState}
-                    defaultValue={price_purchased}
-                    name="price_purchased"
+                    watchSale={watchSale}
+                    watchPurchase={watchPurchase}
                   />
-                  <InputEdit
-                    text="Preço V."
-                    register={register}
-                    stateField={editField.price_saled}
-                    editStateField={handleSetEditState}
-                    defaultValue={price_saled}
-                    name="price_saled"
-                  />
-                  <Label>
-                    <Text>Vendas:</Text>
-                    {watchSale && <Input type="number" placeholder="Vender" />}
-                    {!watchSale && (
-                      <Input type="number" disabled placeholder="Vender" />
-                    )}
-                    <input
-                      type="checkbox"
-                      className="check"
-                      {...register("sale")}
-                    />
-                  </Label>
-                  <Label>
-                    <Text>Reposição:</Text>
-                    {watchPurchase && (
-                      <Input type="number" placeholder="repor estoque?" />
-                    )}
-                    {!watchPurchase && (
-                      <Input
-                        type="number"
-                        disabled
-                        placeholder="repor estoque?"
-                      />
-                    )}
-                    <input
-                      type="checkbox"
-                      className="check"
-                      {...register("purchase")}
-                    />
-                  </Label>
                 </WrapperInputs>
                 {allInputsDisabled && (
                   <ConfirmButton type="submit" disabled>
@@ -186,9 +182,15 @@ const InfoProduct = ({ showInformation, product }: Props) => {
                     <BsCheckCircle />
                   </ConfirmButton>
                 )}
-                {!allInputsDisabled && (
+                {!allInputsDisabled && !loading && (
                   <ConfirmButton type="submit">
                     <span>Confirmar</span>
+                    <BsCheckCircle />
+                  </ConfirmButton>
+                )}
+                {loading && (
+                  <ConfirmButton type="submit" disabled>
+                    <span>Aguarde...</span>
                     <BsCheckCircle />
                   </ConfirmButton>
                 )}

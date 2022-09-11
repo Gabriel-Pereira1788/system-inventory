@@ -1,6 +1,7 @@
 import { AnyAction, createSlice, Dispatch } from "@reduxjs/toolkit";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import { IProduct } from "../../interfaces/IProduct/IProduct";
 import {
   IStatiticsPerMonth,
   IStatiticsTotal,
@@ -37,9 +38,13 @@ export const sales = createSlice({
       state.updated = false;
     },
     getStatistics(state, { payload }) {
-      const data_month = calculatePerMonth(payload, dataTestPurhcased);
-      const data_total = calculateTotal(data_month, dataC);
+      const data_month = calculatePerMonth(
+        payload.allSales,
+        payload.allPurchases
+      );
 
+      const data_total = calculateTotal(data_month, payload.allProducts);
+      console.log(data_total);
       state.loading = false;
       state.statisticsTotal = { ...data_total };
       state.statisticsMonths = data_month;
@@ -51,15 +56,21 @@ export default sales.reducer;
 
 export const { loadRequest, getStatistics } = sales.actions;
 
-export function asyncGetStatistics(idUser: string) {
+export function asyncGetStatistics(idUser: string, allProducts: IProduct[]) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
     const salesRef = collection(db, "sales");
-    const q = query(salesRef, where("id_usuario", "==", idUser));
-    const querySnapshot = await getDocs(q);
-    const allSales = querySnapshot.docs.map((doc) => doc.data);
+    const purchasesRef = collection(db, "purchases");
 
-    return dispatch(getStatistics(allSales));
+    const qSales = query(salesRef, where("id_user", "==", idUser));
+    const qPurchases = query(purchasesRef, where("id_user", "==", idUser));
+
+    const querySnapshotSales = await getDocs(qSales);
+    const querySnapshotPurchases = await getDocs(qPurchases);
+
+    const allSales = querySnapshotSales.docs.map((doc) => doc.data());
+    const allPurchases = querySnapshotPurchases.docs.map((doc) => doc.data());
+    return dispatch(getStatistics({ allSales, allPurchases, allProducts }));
   };
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Circle, Container, Wrapper } from "./styles";
+import { Button, Circle, Container, Text, Wrapper } from "./styles";
 import { MdShoppingBasket } from "react-icons/md";
 import Table from "../../components/Table";
 import ModalCreate from "../../components/ModalCreate";
@@ -24,6 +24,7 @@ const Products = (props: Props) => {
   };
 
   useEffect(() => {
+    console.log("get products");
     if (user) dispatch(asyncLoadProducts(user.uid));
   }, [updatedProduct]);
   return (
@@ -31,7 +32,7 @@ const Products = (props: Props) => {
       <Container>
         <Wrapper>
           <Button onClick={handleToggleModal("open")}>
-            <span>Adicionar Produto</span>
+            <Text>Adicionar Produto</Text>
             <Circle>
               <MdShoppingBasket color="black" />
             </Circle>

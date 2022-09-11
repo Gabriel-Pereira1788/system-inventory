@@ -5,20 +5,22 @@ import { calculatePerMonth } from "../../utils/calculatePerMonth";
 import CardControl from "../CardControl";
 import LineChart from "../LineChart";
 import { Container, ContainerInfos, Info, InfoProduct } from "./styles";
-import { RootState } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 import { MONTHS_DATA } from "../../mock/monthsData";
 import { getRelevantStatistics } from "../../utils/relevantStatistics";
 import { IRelevantStatistics } from "../../interfaces/IStatistics/IStatistics";
 import { ChartOptions } from "chart.js";
 import { IChart } from "../../interfaces/IChart/IChart";
+import { asyncGetStatistics } from "../../store/Statistics/Statistics.store";
 type Props = {};
 
 const ContainerControl = (props: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
+  const { products } = useSelector((state: RootState) => state.products);
   const { statisticsMonths, statisticsTotal } = useSelector(
     (slice: RootState) => slice.statistics
   );
-  console.log(statisticsMonths);
+  const dispatch = useAppDispatch();
 
   const [labels, setLabels] = useState<string[]>([]);
   const [statisticsRelevant, setStatisticsRelevant] =
@@ -31,6 +33,10 @@ const ContainerControl = (props: Props) => {
     tension: 0.4,
   });
 
+  useEffect(() => {
+    if (user && products.length > 0)
+      dispatch(asyncGetStatistics(user.uid, products));
+  }, [user, products]);
   useEffect(() => {
     if (statisticsMonths) {
       const keys = Object.keys(statisticsMonths);

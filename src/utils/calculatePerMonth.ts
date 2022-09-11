@@ -19,7 +19,8 @@ export const separatePerMonth = (data: any[], dataPurchased?: any[]) => {
   };
   const separete = (data: any[], key: keyMonthsData) => {
     data.forEach((sales) => {
-      const month = new Date(sales.date).getMonth();
+      const dateConvert = new Date(sales.date.seconds * 1000);
+      const month = dateConvert.getMonth();
       switch (month) {
         case 0:
           MONTHS.janeiro[key].push(sales);
@@ -71,17 +72,18 @@ const calculateTotalPerMonth = (
   daysPurchased: any[]
 ): IStatiticsPerMonth => {
   const sales_amount = daysSaled.reduce(
-    (acc, day) => (acc += (day.priceSaled - day.pricePurchased) * day.sales),
+    (acc, day) =>
+      (acc += (day.price_saled - day.price_purchased) * day.pieces_saled),
     0
   );
   const total_piece_sales = daysSaled.reduce(
-    (acc, day) => (acc += day.sales),
+    (acc, day) => (acc += day.pieces_saled),
     0
   );
-  const maxSaled = Math.max(...daysSaled.map((day) => day.sales));
-  const best_selling = daysSaled.find((day) => day.sales === maxSaled);
+  const maxSaled = Math.max(...daysSaled.map((day) => day.pieces_saled));
+  const best_selling = daysSaled.find((day) => day.pieces_saled === maxSaled);
   const storage_month = daysPurchased.reduce(
-    (acc, day) => (acc += day.purchased),
+    (acc, day) => (acc += day.pieces_purchased),
     0
   );
   // best_selling.data_sale = best_selling.date_sale.toString();
@@ -96,9 +98,9 @@ const calculateTotalPerMonth = (
 
 export const calculatePerMonth = (dataSale: any[], dataPurchased: any[]) => {
   /*Refatorar logica para melhor junção dos dois dados */
+  console.log(dataSale);
 
   const dataPerMonths = separatePerMonth(dataSale, dataPurchased);
-
   const dataTest: { [index: string]: IStatiticsPerMonth } = Object.entries(
     dataPerMonths
   )

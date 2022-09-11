@@ -6,7 +6,10 @@ import { Wrapper, Container, Title, Text } from "./styles";
 import { asyncLoadProducts } from "../../store/Products/Products.store";
 import { useSelector } from "react-redux";
 import ContainerControl from "../../components/ContainerControl";
-import { getStatistics } from "../../store/Statistics/Statistics.store";
+import {
+  asyncGetStatistics,
+  getStatistics,
+} from "../../store/Statistics/Statistics.store";
 import { dataSales } from "../../mock/data";
 
 type Props = {};
@@ -17,7 +20,6 @@ const DashBoard = (props: Props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getStatistics(dataSales));
     if (user) {
       dispatch(asyncLoadProducts(user.uid));
     }

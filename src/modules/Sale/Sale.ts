@@ -1,17 +1,13 @@
-import { uuid } from "uuidv4";
-
 export class Sale {
-  public readonly produto_id?: string;
-  public readonly id_usuario?: string;
-  public readonly id_sale?: string;
-  public price?: string;
+  public readonly id_product?: string;
+  public readonly id_user?: string;
+  public price_saled?: number;
+  public price_purchased?: number;
+  public storage?: number;
   public sales?: number;
   public date_sale?: Date;
-  constructor(props: Omit<Sale, "id_sale">, id_sale?: string) {
+  constructor(props: Sale) {
     Object.assign(this, props);
     this.date_sale = new Date();
-    if (id_sale) {
-      this.id_sale = uuid();
-    }
   }
 }

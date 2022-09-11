@@ -52,7 +52,7 @@ export function loginUser({ email, password }: IForm) {
   };
 }
 
-export function registerUser({ email, password }: IForm) {
+export function registerUser({ email, password, name }: IForm) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
     const { user } = await createUserWithEmailAndPassword(
@@ -60,7 +60,7 @@ export function registerUser({ email, password }: IForm) {
       email,
       password
     );
-    const userData = dataStructureUser(user);
+    const userData = dataStructureUser(user, name);
     return dispatch(authUser(userData));
   };
 }

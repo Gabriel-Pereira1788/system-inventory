@@ -20,5 +20,5 @@ export interface IProduct {
   price_saled: number;
   storage: number;
   price_purchased: number;
-  id_usuario: string;
+  id_user: string;
 }

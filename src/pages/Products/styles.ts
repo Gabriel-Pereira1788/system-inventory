@@ -74,9 +74,11 @@ export const Button = styled.button`
   &:hover {
     background-color: #62626296;
   }
-  span {
-    font-size: 11px;
-  }
+`;
+
+export const Text = styled.span`
+  font-size: 11px;
+  color: #fff;
 `;
 
 export const Circle = styled.div`
