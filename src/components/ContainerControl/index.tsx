@@ -86,6 +86,15 @@ const ContainerControl = (props: Props) => {
             subTitle="ultimo mes"
           />
         )}
+        {!statisticsRelevant?.data_last_month && (
+          <CardControl
+            alert
+            showPercentage
+            title="Renda total"
+            value={0}
+            subTitle="ultimo mes"
+          />
+        )}
         {statisticsRelevant?.data_current_month && (
           <CardControl
             showPercentage
@@ -95,6 +104,16 @@ const ContainerControl = (props: Props) => {
             subTitle="um mes"
           />
         )}
+        {!statisticsRelevant?.data_current_month && (
+          <CardControl
+            alert
+            showPercentage
+            title="Total"
+            value={0}
+            subTitle="um mes"
+          />
+        )}
+
         <CardControl
           showPercentage
           title="Total"

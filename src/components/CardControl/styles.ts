@@ -5,6 +5,7 @@ type PropsCard = {
 };
 
 export const Card = styled.article<PropsCard>`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,4 +43,22 @@ export const ContainerCard = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+`;
+
+export const CardAlert = styled.article`
+  backdrop-filter: blur(2px);
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffffa6;
+  height: 100%;
+`;
+
+export const Alert = styled.h3`
+  font-size: 15px;
+  color: #000;
+  font-weight: bold;
 `;

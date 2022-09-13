@@ -44,7 +44,7 @@ export const sales = createSlice({
       );
 
       const data_total = calculateTotal(data_month, payload.allProducts);
-      console.log(data_total);
+      console.log(data_month);
       state.loading = false;
       state.statisticsTotal = { ...data_total };
       state.statisticsMonths = data_month;
@@ -71,17 +71,5 @@ export function asyncGetStatistics(idUser: string, allProducts: IProduct[]) {
     const allSales = querySnapshotSales.docs.map((doc) => doc.data());
     const allPurchases = querySnapshotPurchases.docs.map((doc) => doc.data());
     return dispatch(getStatistics({ allSales, allPurchases, allProducts }));
-  };
-}
-
-export function asyncSaleProduct(sale: Sale) {
-  return async function (dispatch: Dispatch<AnyAction>) {
-    dispatch(loadRequest());
-  };
-}
-
-export function asyncPurchaseProduct(purchased: any) {
-  return async function (dispatch: Dispatch<AnyAction>) {
-    dispatch(loadRequest());
   };
 }

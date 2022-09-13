@@ -6,23 +6,37 @@ import { Input, Label, Text } from "./styles";
 
 type Props = {
   register: UseFormRegister<IFormEdit>;
+  setValue: UseFormSetValue<IFormEdit>;
   watchSale: boolean;
   watchPurchase: boolean;
 };
 
-const DataStorage = ({ register, watchSale, watchPurchase }: Props) => {
+const DataStorage = ({
+  register,
+  setValue,
+  watchSale,
+  watchPurchase,
+}: Props) => {
   return (
     <>
       <Label>
         <Text>Vendas:</Text>
-        {watchSale && (
-          <Input
-            type="number"
-            placeholder="Vender"
-            {...register("dataSaled.pieces_saled")}
-          />
-        )}
-        {!watchSale && <Input type="number" disabled placeholder="Vender" />}
+        {watchSale &&
+          (() => {
+            setValue("dataSaled.pieces_saled", 0);
+            return (
+              <Input
+                type="number"
+                placeholder="Vender"
+                {...register("dataSaled.pieces_saled")}
+              />
+            );
+          })()}
+        {!watchSale &&
+          (() => {
+            setValue("dataSaled.pieces_saled", 0);
+            return <Input type="number" disabled placeholder="Vender" />;
+          })()}
         <input
           type="checkbox"
           className="check"
@@ -31,16 +45,24 @@ const DataStorage = ({ register, watchSale, watchPurchase }: Props) => {
       </Label>
       <Label>
         <Text>Reposição:</Text>
-        {watchPurchase && (
-          <Input
-            type="number"
-            placeholder="repor estoque?"
-            {...register("dataPurchased.pieces_purchased")}
-          />
-        )}
-        {!watchPurchase && (
-          <Input type="number" disabled placeholder="repor estoque?" />
-        )}
+        {watchPurchase &&
+          (() => {
+            setValue("dataPurchased.pieces_purchased", 0);
+            return (
+              <Input
+                type="number"
+                placeholder="repor estoque?"
+                {...register("dataPurchased.pieces_purchased")}
+              />
+            );
+          })()}
+        {!watchPurchase &&
+          (() => {
+            setValue("dataPurchased.pieces_purchased", 0);
+            return (
+              <Input type="number" disabled placeholder="repor estoque?" />
+            );
+          })()}
         <input
           type="checkbox"
           className="check"

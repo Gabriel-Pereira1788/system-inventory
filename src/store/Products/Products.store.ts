@@ -86,8 +86,20 @@ export function asyncCreateProduct(product: IProduct) {
   return async function (dispatch: Dispatch<AnyAction>) {
     try {
       // console.log(product);
+      const { storage, id_user, price_purchased, price_saled, id_product } =
+        product;
       dispatch(loadRequest());
+      // const dataSubmit = {
+      //   storage,
+      //   id_user,
+      //   id_product,
+      //   price_purchased,
+      //   price_saled,
+      //   date: new Date(),
+      //   pieces_purchased: storage,
+      // };
       await addDoc(collection(db, "products"), product);
+      // await addDoc(collection(db, "purchases"), dataSubmit);
 
       return dispatch(updateProduct());
     } catch (error: any) {
@@ -148,6 +160,20 @@ export function asyncUpdateStorage(
     try {
       dispatch(loadRequest());
       await addDoc(collection(db, collectionDoc), dataSubmit);
+      if ("pieces_purchased" in data) {
+        const newDataProduct = {
+          ...product,
+          storage: storage + data.pieces_purchased,
+        };
+        await updateDoc(doc(db, "products", id_product!), newDataProduct);
+      }
+      if ("pieces_saled" in data) {
+        const newDataSaled = {
+          ...product,
+          storage: storage - data.pieces_saled,
+        };
+        await updateDoc(doc(db, "products", id_product!), newDataSaled);
+      }
       return dispatch(updateProduct());
     } catch (error: any) {
       dispatch(loadRequestFailed(error.message));

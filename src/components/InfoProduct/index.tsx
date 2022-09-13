@@ -45,8 +45,11 @@ type Props = {
 const InfoProduct = ({ showInformation, product }: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
   const { loading } = useSelector((state: RootState) => state.products);
+  const { statisticsTotal } = useSelector(
+    (state: RootState) => state.statistics
+  );
   const dispatch = useAppDispatch();
-  const { storage, id_product, price_purchased, price_saled } = product;
+  const { storage, id_product } = product;
 
   const {
     register,
@@ -54,6 +57,7 @@ const InfoProduct = ({ showInformation, product }: Props) => {
     formState: { errors },
     watch,
     handleSubmit,
+    setError,
   } = useForm({
     defaultValues: defaultEditForm,
     resolver: yupResolver(schemaEdit),
@@ -84,6 +88,14 @@ const InfoProduct = ({ showInformation, product }: Props) => {
     const notEmptyDataPurchased =
       Object.values(cleanData.dataPurchased).length > 0;
     const notEmptyDataSaled = Object.values(cleanData.dataSaled).length > 0;
+
+    if (notEmptyDataSaled && cleanData.dataSaled.pieces_saled > storage) {
+      setError("dataSaled.pieces_saled", {
+        type: "custom",
+        message: "Valor excedido de estoque",
+      });
+      return;
+    }
 
     if (notEmptyDataEdit && user) {
       const dataTest = {
@@ -153,12 +165,15 @@ const InfoProduct = ({ showInformation, product }: Props) => {
                   subTitle="Més atual"
                   value={200}
                 />
-                <CardControl
-                  showPercentage
-                  width="20%"
-                  title="Em estoque"
-                  value={storage}
-                />
+                {statisticsTotal?.total_storage && (
+                  <CardControl
+                    showPercentage
+                    dataTotal={statisticsTotal}
+                    width="20%"
+                    title="Em estoque"
+                    value={storage}
+                  />
+                )}
               </ContainerCard>
               <Form onSubmit={handleSubmit(handleSubmitData)}>
                 <WrapperInputs>
@@ -172,6 +187,7 @@ const InfoProduct = ({ showInformation, product }: Props) => {
                   />
                   <DataStorage
                     register={register}
+                    setValue={setValue}
                     watchSale={watchSale}
                     watchPurchase={watchPurchase}
                   />

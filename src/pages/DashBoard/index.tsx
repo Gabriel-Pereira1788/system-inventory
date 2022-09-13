@@ -2,7 +2,14 @@
 import React, { useEffect } from "react";
 import NavVertical from "../../components/NavVertical";
 import { RootState, useAppDispatch } from "../../store/store";
-import { Wrapper, Container, Title, Text } from "./styles";
+import {
+  Wrapper,
+  Container,
+  ContainerTitle,
+  Text,
+  Title,
+  UserName,
+} from "./styles";
 import { asyncLoadProducts } from "../../store/Products/Products.store";
 import { useSelector } from "react-redux";
 import ContainerControl from "../../components/ContainerControl";
@@ -27,12 +34,12 @@ const DashBoard = (props: Props) => {
   return (
     <Container>
       <Wrapper>
-        <Title>
-          <h2>
-            Olá , <span>Gabriel</span>.
-          </h2>
+        <ContainerTitle>
+          <Title>
+            Olá , <UserName>Gabriel</UserName>.
+          </Title>
           <Text>Bem vindo de volta!</Text>
-        </Title>
+        </ContainerTitle>
         <ContainerControl />
       </Wrapper>
     </Container>

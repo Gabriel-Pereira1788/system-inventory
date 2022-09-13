@@ -31,6 +31,7 @@ export interface IStatiticsPerMonth {
 }
 
 export interface IStatiticsTotal {
-  totalSales: number;
+  total_sales: number;
   total_pieces_sales: number;
+  total_storage: number;
 }
