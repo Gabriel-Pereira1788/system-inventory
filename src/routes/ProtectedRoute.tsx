@@ -9,7 +9,6 @@ type Props = {
 
 export function ProtectedRoutes({ isDefaultRoutes, isUserRoute }: Props) {
   const { user } = useSelector((slice: RootState) => slice.user);
-  console.log(console.log(user));
   if (isUserRoute) {
     return user ? <Outlet /> : <Navigate to="/login" />;
   }

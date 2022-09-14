@@ -36,7 +36,7 @@ const DashBoard = (props: Props) => {
       <Wrapper>
         <ContainerTitle>
           <Title>
-            Olá , <UserName>Gabriel</UserName>.
+            Olá , <UserName>{user && user.name}</UserName>.
           </Title>
           <Text>Bem vindo de volta!</Text>
         </ContainerTitle>

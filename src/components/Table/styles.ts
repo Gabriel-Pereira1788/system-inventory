@@ -30,6 +30,20 @@ export const ContainerTable = styled.div`
   overflow: auto;
   box-shadow: 0px 3px 10px #0000001a;
   border-radius: 0px 0px 15px 15px;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors.background};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.main.yellowGold};
+    border-radius: 20px;
+    border: 3px solid #ffa50000;
+  }
 `;
 
 export const ContainerRow = styled.article`

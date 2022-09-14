@@ -15,10 +15,11 @@ import { ProtectedRoutes } from "./ProtectedRoute";
 type Props = {};
 
 const Router = (props: Props) => {
+  const { user } = useSelector((state: RootState) => state.user);
   return (
     <BrowserRouter>
       <NavBar />
-      <NavVertical />
+      {user && <NavVertical />}
       <Routes>
         <Route element={<ProtectedRoutes isDefaultRoutes />}>
           <Route path="/" element={<Home />} />

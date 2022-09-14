@@ -25,5 +25,9 @@ export const ButtonC = styledMUI(Button)`
     &:hover{
       background-color:#f3e06c;
     }
+    &:disabled{
+      color:#fff;
+      background-color:gray;
+    }
 
 `;

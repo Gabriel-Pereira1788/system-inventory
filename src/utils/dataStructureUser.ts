@@ -1,9 +1,10 @@
 import { User } from "firebase/auth";
 
 export const dataStructureUser = (data: User, name?: string) => {
-  const { email, uid, phoneNumber } = data;
+  console.log(data);
+  const { email, uid, phoneNumber, displayName } = data;
   return {
-    name,
+    name: displayName || "",
     email,
     uid,
     phoneNumber,

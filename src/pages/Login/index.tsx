@@ -4,9 +4,12 @@ import { ContainerTitle, Title, ButtonC } from "./style";
 import { Box, TextField, Stack } from "@mui/material";
 import CardForm from "../../components/CardForm";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 import { IForm, initialValueLogin } from "../../interfaces/IForm/IForm";
 import { loginUser } from "../../store/User/User.store";
+import { useSelector } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaLogin } from "../../schemas/schemaLogin";
 type Props = {};
 
 const Login = (props: Props) => {
@@ -16,8 +19,13 @@ const Login = (props: Props) => {
     formState: { errors },
   } = useForm({
     defaultValues: initialValueLogin,
+    resolver: yupResolver(schemaLogin),
   });
 
+  const { loading, messageError } = useSelector(
+    (state: RootState) => state.user
+  );
+  console.log(messageError);
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<IForm> = (data: IForm) => {
     dispatch(loginUser(data));
@@ -35,13 +43,24 @@ const Login = (props: Props) => {
           <Title>Entrar</Title>
         </ContainerTitle>
         <Stack spacing={3}>
-          <TextField variant="outlined" label="Email" {...register("email")} />
           <TextField
+            type="email"
+            variant="outlined"
+            label="Email"
+            {...register("email")}
+          />
+          <TextField
+            type="password"
             variant="outlined"
             label="Senha"
             {...register("password")}
           />
-          <ButtonC type="submit">Entrar</ButtonC>
+          {!loading && <ButtonC type="submit">Entrar</ButtonC>}
+          {loading && (
+            <ButtonC type="submit" disabled>
+              Aguarde...
+            </ButtonC>
+          )}
         </Stack>
       </Box>
     </CardForm>
