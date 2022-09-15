@@ -34,7 +34,7 @@ export const sales = createSlice({
   initialState,
   reducers: {
     loadRequest(state) {
-      state.loading = false;
+      state.loading = true;
       state.updated = false;
     },
     getStatistics(state, { payload }) {
@@ -45,16 +45,26 @@ export const sales = createSlice({
 
       const data_total = calculateTotal(data_month, payload.allProducts);
       console.log(data_month);
-      state.loading = false;
       state.statisticsTotal = { ...data_total };
       state.statisticsMonths = data_month;
+      state.loading = false;
+    },
+    returnDefaultState() {
+      return {
+        loading: false,
+        statisticsTotal: null,
+        statisticsMonths: null,
+        statisticsYear: {},
+        lastSale: {},
+        updated: false,
+      };
     },
   },
 });
 
 export default sales.reducer;
 
-export const { loadRequest, getStatistics } = sales.actions;
+export const { loadRequest, getStatistics, returnDefaultState } = sales.actions;
 
 export function asyncGetStatistics(idUser: string, allProducts: IProduct[]) {
   return async function (dispatch: Dispatch<AnyAction>) {
@@ -70,6 +80,7 @@ export function asyncGetStatistics(idUser: string, allProducts: IProduct[]) {
 
     const allSales = querySnapshotSales.docs.map((doc) => doc.data());
     const allPurchases = querySnapshotPurchases.docs.map((doc) => doc.data());
+    console.log(allSales);
     return dispatch(getStatistics({ allSales, allPurchases, allProducts }));
   };
 }

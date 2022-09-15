@@ -39,13 +39,17 @@ const user = createSlice({
     loadRequest(state) {
       state.loading = true;
       state.requestSucess = true;
+      state.messageError = "";
     },
     loadRequestFailed(state, { payload }: { payload: string }) {
       state.loading = false;
       state.requestSucess = false;
+      console.log(payload);
       if (payload.includes("user-not-found")) {
-        state.messageError =
-          "Usuario não encontrado. Verifique o email e a senha.";
+        state.messageError = "Usuario não encontrado.";
+      }
+      if (payload.includes("wrong-password")) {
+        state.messageError = "Senha errada.";
       }
     },
     authUser(state, { payload }) {

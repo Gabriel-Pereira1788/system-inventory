@@ -44,12 +44,22 @@ const Login = (props: Props) => {
         </ContainerTitle>
         <Stack spacing={3}>
           <TextField
+            error={messageError || errors.email ? true : false}
+            helperText={
+              (errors.email && errors.email.message) ||
+              (messageError && messageError)
+            }
             type="email"
             variant="outlined"
             label="Email"
             {...register("email")}
           />
           <TextField
+            error={messageError || errors.password ? true : false}
+            helperText={
+              (errors.password && errors.password.message) ||
+              (messageError && messageError)
+            }
             type="password"
             variant="outlined"
             label="Senha"

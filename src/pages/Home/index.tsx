@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Container,
   ContainerImage,
   ContainerText,
@@ -10,6 +11,7 @@ import {
 } from "./styles";
 import img from "../../assets/inventory_cartoon.png";
 import ContentMain from "./components/ContentMain";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -23,7 +25,9 @@ const Home = (props: Props) => {
           </ContainerImage>
           <ContainerText>
             <Text>Organize seu estoque de maneira simples e eficiente</Text>
-            <button>Cadastrar</button>
+            <Link to="/register">
+              <Button>Cadastrar</Button>
+            </Link>
           </ContainerText>
         </Wrapper>
       </Section>

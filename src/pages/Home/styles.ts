@@ -35,9 +35,10 @@ export const ContainerText = styled.article`
   justify-content: space-evenly;
   align-items: flex-start;
   height: 100%;
-  button {
-    background-color: ${({ theme }) => theme.colors.main.yellowGold};
-  }
+`;
+
+export const Button = styled.button`
+  background-color: ${({ theme }) => theme.colors.main.yellowGold};
 `;
 export const Text = styled.h3`
   text-shadow: 1px 2px 6px #090808a1;
@@ -80,11 +81,9 @@ export const AboutUs = styled.article`
   border-radius: 10px;
   justify-content: space-around;
   align-items: center;
-  h3 {
-    font-size: 2.5em;
-    width: 50%;
-  }
-  button {
-    background-color: ${({ theme }) => theme.colors.main.yellowGold};
-  }
+`;
+
+export const TitleAbout = styled.h3`
+  font-size: 2.5em;
+  width: 50%;
 `;

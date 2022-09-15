@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dataC, dataSales } from "../../mock/data";
 import { calculatePerMonth } from "../../utils/calculatePerMonth";
@@ -11,11 +11,16 @@ import { getRelevantStatistics } from "../../utils/relevantStatistics";
 import { IRelevantStatistics } from "../../interfaces/IStatistics/IStatistics";
 import { ChartOptions } from "chart.js";
 import { IChart } from "../../interfaces/IChart/IChart";
-import { asyncGetStatistics } from "../../store/Statistics/Statistics.store";
+import {
+  asyncGetStatistics,
+  returnDefaultState,
+} from "../../store/Statistics/Statistics.store";
+import Loading from "../Loading";
 type Props = {};
 
 const ContainerControl = (props: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
+  const { loading } = useSelector((slice: RootState) => slice.statistics);
   const { products } = useSelector((state: RootState) => state.products);
   const { statisticsMonths, statisticsTotal } = useSelector(
     (slice: RootState) => slice.statistics
@@ -34,9 +39,14 @@ const ContainerControl = (props: Props) => {
   });
 
   useEffect(() => {
-    if (user && products.length > 0)
+    dispatch(returnDefaultState());
+  }, []);
+
+  useEffect(() => {
+    if (user && products.length > 0 && !statisticsTotal)
       dispatch(asyncGetStatistics(user.uid, products));
-  }, [user, products]);
+  }, [user, products, statisticsTotal]);
+
   useEffect(() => {
     if (statisticsMonths) {
       const keys = Object.keys(statisticsMonths);
@@ -58,17 +68,22 @@ const ContainerControl = (props: Props) => {
   // useEffect(() => {
   //   // if (user) calculatePerMonth(dataSales);
   // }, []);
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <Container>
       <InfoProduct className="main-graph card">
         <ContainerInfos>
           <Info>
             <h3>vendidos</h3>
-            <span>{statisticsTotal && statisticsTotal.total_pieces_sales}</span>
+            <span>
+              {statisticsTotal ? statisticsTotal.total_pieces_sales : 0}
+            </span>
           </Info>
           <Info>
             <h3>disponiveis</h3>
-            <span>{statisticsTotal && statisticsTotal.total_storage}</span>
+            <span>{statisticsTotal ? statisticsTotal.total_storage : 0}</span>
           </Info>
         </ContainerInfos>
         <Info>

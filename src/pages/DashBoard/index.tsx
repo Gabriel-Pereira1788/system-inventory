@@ -18,6 +18,7 @@ import {
   getStatistics,
 } from "../../store/Statistics/Statistics.store";
 import { dataSales } from "../../mock/data";
+import Loading from "../../components/Loading";
 
 type Props = {};
 

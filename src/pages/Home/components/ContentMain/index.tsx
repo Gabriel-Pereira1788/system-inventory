@@ -1,5 +1,12 @@
 import React from "react";
-import { AboutUs, BackgroundAbout, WrapperMain } from "../../styles";
+import { Link } from "react-router-dom";
+import {
+  AboutUs,
+  BackgroundAbout,
+  Button,
+  TitleAbout,
+  WrapperMain,
+} from "../../styles";
 
 type Props = {};
 
@@ -8,8 +15,10 @@ const ContentMain = (props: Props) => {
     <WrapperMain>
       <BackgroundAbout>
         <AboutUs>
-          <h3>Conheça um pouco do projeto</h3>
-          <button>Sobre nos</button>
+          <TitleAbout>Conheça um pouco do projeto</TitleAbout>
+          <Link to="/about">
+            <Button>Sobre nós</Button>
+          </Link>
         </AboutUs>
       </BackgroundAbout>
     </WrapperMain>
