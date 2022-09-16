@@ -1,3 +1,4 @@
+import { paginationItemClasses } from "@mui/material";
 import { AnyAction, createSlice, Dispatch } from "@reduxjs/toolkit";
 import {
   addDoc,
@@ -55,6 +56,17 @@ const products = createSlice({
       state.loading = false;
       state.updatedProduct = !state.updatedProduct;
     },
+    updatedStorage(state) {
+      state.loading = false;
+    },
+    returnStateProducts() {
+      return {
+        products: [],
+        singleProduct: {},
+        loading: false,
+        updatedProduct: false,
+      };
+    },
   },
 });
 
@@ -65,6 +77,8 @@ export const {
   loadRequest,
   loadRequestFailed,
   updateProduct,
+  updatedStorage,
+  returnStateProducts,
 } = products.actions;
 
 export function asyncLoadProducts(idUser: string) {
@@ -89,17 +103,18 @@ export function asyncCreateProduct(product: IProduct) {
       const { storage, id_user, price_purchased, price_saled, id_product } =
         product;
       dispatch(loadRequest());
-      // const dataSubmit = {
-      //   storage,
-      //   id_user,
-      //   id_product,
-      //   price_purchased,
-      //   price_saled,
-      //   date: new Date(),
-      //   pieces_purchased: storage,
-      // };
-      await addDoc(collection(db, "products"), product);
-      // await addDoc(collection(db, "purchases"), dataSubmit);
+
+      const response = await addDoc(collection(db, "products"), product);
+      const dataSubmit = {
+        storage,
+        id_user,
+        id_product: response.id,
+        price_purchased,
+        price_saled,
+        date: new Date(),
+        pieces_purchased: storage,
+      };
+      await addDoc(collection(db, "purchases"), dataSubmit);
 
       return dispatch(updateProduct());
     } catch (error: any) {
@@ -139,6 +154,63 @@ export function asyncUpdateProduct(
   };
 }
 
+export function asyncPurchasedProduct(
+  data: IDataPurchased,
+  product: IProduct,
+  idUser: string
+) {
+  return async function (dispatch: Dispatch<AnyAction>) {
+    const { storage, id_product, price_purchased, price_saled } = product;
+    try {
+      dispatch(loadRequest());
+      const dataSubmit = {
+        storage,
+        id_user: idUser,
+        id_product,
+        price_purchased,
+        price_saled,
+        date: new Date(),
+        ...data,
+      };
+      await addDoc(collection(db, "purchases"), dataSubmit);
+      product.storage = product.storage + data.pieces_purchased;
+
+      await updateDoc(doc(db, "products", id_product!), { ...product });
+      return dispatch(updateProduct());
+    } catch (error: any) {
+      return dispatch(loadRequestFailed(error.message));
+    }
+  };
+}
+export function asyncSaledProduct(
+  data: IDataSaled,
+  product: IProduct,
+  idUser: string
+) {
+  return async function (dispatch: Dispatch<AnyAction>) {
+    const { storage, id_product, price_purchased, price_saled } = product;
+    try {
+      dispatch(loadRequest());
+      const dataSubmit = {
+        storage,
+        id_user: idUser,
+        id_product,
+        price_purchased,
+        price_saled,
+        date: new Date(),
+        ...data,
+      };
+      await addDoc(collection(db, "sales"), dataSubmit);
+      product.storage = product.storage - data.pieces_saled;
+
+      await updateDoc(doc(db, "products", id_product!), { ...product });
+      return dispatch(updateProduct());
+    } catch (error: any) {
+      return dispatch(loadRequestFailed(error.message));
+    }
+  };
+}
+
 export function asyncUpdateStorage(
   data: IDataSaled | IDataPurchased,
   product: IProduct,
@@ -147,6 +219,7 @@ export function asyncUpdateStorage(
 ) {
   return async function (dispatch: Dispatch<AnyAction>) {
     const { storage, id_product, price_purchased, price_saled } = product;
+    const refProduct = { ...product };
     const dataSubmit = {
       storage,
       id_user: idUser,
@@ -161,18 +234,21 @@ export function asyncUpdateStorage(
       dispatch(loadRequest());
       await addDoc(collection(db, collectionDoc), dataSubmit);
       if ("pieces_purchased" in data) {
-        const newDataProduct = {
-          ...product,
-          storage: storage + data.pieces_purchased,
-        };
-        await updateDoc(doc(db, "products", id_product!), newDataProduct);
+        // const newDataProduct = {
+        //   ...product,
+        //   storage: storage + data.pieces_purchased,
+        // };
+        refProduct.storage += data.pieces_purchased;
+        await updateDoc(doc(db, "products", id_product!), refProduct);
       }
       if ("pieces_saled" in data) {
-        const newDataSaled = {
-          ...product,
-          storage: storage - data.pieces_saled,
-        };
-        await updateDoc(doc(db, "products", id_product!), newDataSaled);
+        // const newDataSaled = {
+        //   ...product,
+        //   storage: storage - data.pieces_saled,
+        // };
+        console.log(refProduct);
+        refProduct.storage -= data.pieces_saled;
+        await updateDoc(doc(db, "products", id_product!), refProduct);
       }
       return dispatch(updateProduct());
     } catch (error: any) {

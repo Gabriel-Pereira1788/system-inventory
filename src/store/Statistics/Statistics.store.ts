@@ -80,7 +80,7 @@ export function asyncGetStatistics(idUser: string, allProducts: IProduct[]) {
 
     const allSales = querySnapshotSales.docs.map((doc) => doc.data());
     const allPurchases = querySnapshotPurchases.docs.map((doc) => doc.data());
-    console.log(allSales);
+    console.log(allPurchases);
     return dispatch(getStatistics({ allSales, allPurchases, allProducts }));
   };
 }

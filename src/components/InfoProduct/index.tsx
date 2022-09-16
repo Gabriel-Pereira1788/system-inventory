@@ -6,9 +6,6 @@ import {
   WrapperInputs,
   Form,
   Input as input,
-  Label,
-  Input,
-  Text,
   Trash,
   ConfirmButton,
 } from "./styles";
@@ -33,6 +30,8 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
 import { cleanValues } from "../../utils/cleanEmptyValues";
 import {
+  asyncPurchasedProduct,
+  asyncSaledProduct,
   asyncUpdateProduct,
   asyncUpdateStorage,
 } from "../../store/Products/Products.store";
@@ -50,6 +49,7 @@ const InfoProduct = ({ showInformation, product }: Props) => {
   );
   const dispatch = useAppDispatch();
   const { storage, id_product } = product;
+  const refProduct: IProduct = { ...product };
 
   const {
     register,
@@ -82,7 +82,9 @@ const InfoProduct = ({ showInformation, product }: Props) => {
     };
   };
 
-  const handleSubmitData: SubmitHandler<IFormEdit> = (data: IFormEdit) => {
+  const handleSubmitData: SubmitHandler<IFormEdit> = async (
+    data: IFormEdit
+  ) => {
     const cleanData = cleanValues(data);
     const notEmptyDataEdit = Object.values(cleanData.dataEdit).length > 0;
     const notEmptyDataPurchased =
@@ -106,20 +108,13 @@ const InfoProduct = ({ showInformation, product }: Props) => {
       console.log(dataTest);
       dispatch(asyncUpdateProduct(id_product!, dataTest));
     }
-    if (notEmptyDataSaled && user) {
-      dispatch(
-        asyncUpdateStorage(cleanData.dataSaled, product, user.uid, "sales")
-      );
-    }
     if (notEmptyDataPurchased && user) {
       dispatch(
-        asyncUpdateStorage(
-          cleanData.dataPurchased,
-          product,
-          user.uid,
-          "purchases"
-        )
+        asyncPurchasedProduct(cleanData.dataPurchased, refProduct, user.uid)
       );
+    }
+    if (notEmptyDataSaled && user) {
+      dispatch(asyncSaledProduct(cleanData.dataSaled, refProduct, user.uid));
     }
   };
 

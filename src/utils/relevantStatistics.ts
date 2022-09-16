@@ -10,7 +10,6 @@ export const getRelevantStatistics = (statistics: {
 
   const data_last_month = statistics[MONTHS_DATA[currentMonth - 1]];
   const data_current_month = statistics[MONTHS_DATA[currentMonth]];
-  console.log(currentMonth);
   return {
     data_last_month,
     data_current_month,

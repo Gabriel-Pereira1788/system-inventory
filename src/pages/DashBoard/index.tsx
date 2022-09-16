@@ -29,6 +29,7 @@ const DashBoard = (props: Props) => {
 
   useEffect(() => {
     if (user) {
+      console.log("load products");
       dispatch(asyncLoadProducts(user.uid));
     }
   }, []);

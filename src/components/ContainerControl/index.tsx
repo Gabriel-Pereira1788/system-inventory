@@ -21,7 +21,9 @@ type Props = {};
 const ContainerControl = (props: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
   const { loading } = useSelector((slice: RootState) => slice.statistics);
-  const { products } = useSelector((state: RootState) => state.products);
+  const { products, updatedProduct } = useSelector(
+    (state: RootState) => state.products
+  );
   const { statisticsMonths, statisticsTotal } = useSelector(
     (slice: RootState) => slice.statistics
   );
@@ -38,18 +40,21 @@ const ContainerControl = (props: Props) => {
     tension: 0.4,
   });
 
-  useEffect(() => {
-    dispatch(returnDefaultState());
-  }, []);
+  console.log(statisticsTotal);
+
+  // useEffect(() => {
+  //   dispatch(returnDefaultState());
+  // }, []);
 
   useEffect(() => {
-    if (user && products.length > 0 && !statisticsTotal)
+    if (user && products.length > 0)
       dispatch(asyncGetStatistics(user.uid, products));
-  }, [user, products, statisticsTotal]);
+  }, [products]);
 
   useEffect(() => {
     if (statisticsMonths) {
       const keys = Object.keys(statisticsMonths);
+      console.log(statisticsMonths);
       const relevantData = getRelevantStatistics(statisticsMonths);
       const dataChart = Object.values(statisticsMonths).map(
         (month) => month.total_piece_sales
@@ -65,9 +70,6 @@ const ContainerControl = (props: Props) => {
     datasets: [optionChart],
   };
 
-  // useEffect(() => {
-  //   // if (user) calculatePerMonth(dataSales);
-  // }, []);
   if (loading) {
     return <Loading />;
   }

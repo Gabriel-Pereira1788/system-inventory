@@ -13,6 +13,8 @@ import { Paper } from "@mui/material";
 import { RootState, useAppDispatch } from "../../store/store";
 import { asyncLogoutUser } from "../../store/User/User.store";
 import { useSelector } from "react-redux";
+import { returnDefaultState } from "../../store/Statistics/Statistics.store";
+import { returnStateProducts } from "../../store/Products/Products.store";
 
 type Props = {
   openModal: boolean;
@@ -25,7 +27,8 @@ const ModalUser = ({ openModal, handleClose }: Props) => {
 
   const handleLogoutUser = async () => {
     await dispatch(asyncLogoutUser());
-
+    dispatch(returnDefaultState());
+    dispatch(returnStateProducts());
     handleClose();
   };
   return (

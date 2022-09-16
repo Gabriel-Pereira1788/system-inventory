@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Row from "./Row";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Column, ContainerTable, LabelSearch, Search, Thead } from "./styles";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 
 type Props = {};
 
 const Table = (props: Props) => {
   const { products } = useSelector((slice: RootState) => slice.products);
+
   return (
     <>
       <Thead>

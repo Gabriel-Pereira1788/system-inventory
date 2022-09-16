@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { CellButton, CellRow, ContainerRow, Wrapper } from "./styles";
 import InfoProduct from "../InfoProduct";
@@ -29,4 +29,4 @@ const Row = (product: IProduct) => {
   );
 };
 
-export default Row;
+export default memo(Row);

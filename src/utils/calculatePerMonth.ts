@@ -98,8 +98,6 @@ const calculateTotalPerMonth = (
 
 export const calculatePerMonth = (dataSale: any[], dataPurchased: any[]) => {
   /*Refatorar logica para melhor junção dos dois dados */
-  console.log(dataSale);
-
   const dataPerMonths = separatePerMonth(dataSale, dataPurchased);
   const dataTest: { [index: string]: IStatiticsPerMonth } = Object.entries(
     dataPerMonths
