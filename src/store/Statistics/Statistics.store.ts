@@ -1,21 +1,18 @@
 import { AnyAction, createSlice, Dispatch } from "@reduxjs/toolkit";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
-import { IProduct } from "../../interfaces/IProduct/IProduct";
+import { api } from "../../api/api";
+
 import {
+  IRelevantStatistics,
   IStatiticsPerMonth,
   IStatiticsTotal,
 } from "../../interfaces/IStatistics/IStatistics";
-import { dataC, dataTestPurhcased } from "../../mock/data";
-import { Sale } from "../../modules/Sale/Sale";
-import { calculatePerMonth } from "../../utils/calculatePerMonth";
-import { calculateTotal } from "../../utils/calculateTotals";
 
 type Slice = {
   loading: boolean;
   statisticsTotal: IStatiticsTotal | null;
   statisticsMonths: { [index: string]: IStatiticsPerMonth } | null;
   statisticsYear: Object;
+  relevantStatistics: IRelevantStatistics | null;
   lastSale: Object;
   updated: boolean;
 };
@@ -25,6 +22,7 @@ const initialState: Slice = {
   statisticsTotal: null,
   statisticsMonths: null,
   statisticsYear: {},
+  relevantStatistics: null,
   lastSale: {},
   updated: false,
 };
@@ -38,15 +36,10 @@ export const sales = createSlice({
       state.updated = false;
     },
     getStatistics(state, { payload }) {
-      const data_month = calculatePerMonth(
-        payload.allSales,
-        payload.allPurchases
-      );
-
-      const data_total = calculateTotal(data_month, payload.allProducts);
-      console.log(data_month);
-      state.statisticsTotal = { ...data_total };
-      state.statisticsMonths = data_month;
+      // console.log(data_month);
+      state.statisticsTotal = payload.dataTotal;
+      state.statisticsMonths = payload.dataMonth;
+      state.relevantStatistics = payload.relevantStatistics;
       state.loading = false;
     },
     returnDefaultState() {
@@ -55,6 +48,7 @@ export const sales = createSlice({
         statisticsTotal: null,
         statisticsMonths: null,
         statisticsYear: {},
+        relevantStatistics: null,
         lastSale: {},
         updated: false,
       };
@@ -66,21 +60,11 @@ export default sales.reducer;
 
 export const { loadRequest, getStatistics, returnDefaultState } = sales.actions;
 
-export function asyncGetStatistics(idUser: string, allProducts: IProduct[]) {
+export function asyncGetStatistics(idUser: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
-    const salesRef = collection(db, "sales");
-    const purchasesRef = collection(db, "purchases");
+    const { data } = await api.get(`/get-statistics/${idUser}`);
 
-    const qSales = query(salesRef, where("id_user", "==", idUser));
-    const qPurchases = query(purchasesRef, where("id_user", "==", idUser));
-
-    const querySnapshotSales = await getDocs(qSales);
-    const querySnapshotPurchases = await getDocs(qPurchases);
-
-    const allSales = querySnapshotSales.docs.map((doc) => doc.data());
-    const allPurchases = querySnapshotPurchases.docs.map((doc) => doc.data());
-    console.log(allPurchases);
-    return dispatch(getStatistics({ allSales, allPurchases, allProducts }));
+    return dispatch(getStatistics(data));
   };
 }

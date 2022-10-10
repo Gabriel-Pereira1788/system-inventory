@@ -11,6 +11,9 @@ export interface IStatiticsTotal {
   total_sales: number;
   total_pieces_sales: number;
   total_storage: number;
+  total_profit: number;
+  total_price_purchased: number;
+  total_price_saled: number;
 }
 
 export interface IRelevantStatistics {

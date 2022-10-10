@@ -33,7 +33,6 @@ import {
   asyncPurchasedProduct,
   asyncSaledProduct,
   asyncUpdateProduct,
-  asyncUpdateStorage,
 } from "../../store/Products/Products.store";
 
 type Props = {

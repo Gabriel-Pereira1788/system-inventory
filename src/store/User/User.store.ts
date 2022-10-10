@@ -9,6 +9,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
+import { api } from "../../api/api";
 import { auth, db } from "../../firebase/firebase";
 import { IForm } from "../../interfaces/IForm/IForm";
 import { dataStructureUser } from "../../utils/dataStructureUser";
@@ -56,7 +57,6 @@ const user = createSlice({
       state.user = payload;
       state.loading = false;
       state.requestSucess = true;
-      console.log(state.user);
     },
     logoutUser(state) {
       state.user = null;
@@ -100,10 +100,16 @@ export function registerUser({ email, password, name }: IForm) {
         updateProfile(auth.currentUser, {
           displayName: name,
         });
-      }
 
-      const userData = dataStructureUser(user, name);
-      return dispatch(authUser(userData));
+        const userData = dataStructureUser(user, name);
+        await api.post(`/create-notification`, {
+          id_user: userData.uid,
+          type_notification: "novo usuario",
+          item_alert: "user",
+        });
+        console.log(userData);
+        return dispatch(authUser(userData));
+      }
     } catch (error) {
       console.log(error);
     }

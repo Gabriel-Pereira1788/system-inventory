@@ -1,37 +1,30 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { dataC, dataSales } from "../../mock/data";
-import { calculatePerMonth } from "../../utils/calculatePerMonth";
 import CardControl from "../CardControl";
 import LineChart from "../LineChart";
-import { Container, ContainerInfos, Info, InfoProduct } from "./styles";
+import { Container } from "./styles";
 import { RootState, useAppDispatch } from "../../store/store";
-import { MONTHS_DATA } from "../../mock/monthsData";
-import { getRelevantStatistics } from "../../utils/relevantStatistics";
-import { IRelevantStatistics } from "../../interfaces/IStatistics/IStatistics";
-import { ChartOptions } from "chart.js";
+
 import { IChart } from "../../interfaces/IChart/IChart";
 import {
   asyncGetStatistics,
   returnDefaultState,
 } from "../../store/Statistics/Statistics.store";
 import Loading from "../Loading";
+import CardInfoTotal from "../CardInfoTotal";
+import { CARDS_DATA } from "../../constants/cards";
 type Props = {};
 
 const ContainerControl = (props: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
   const { loading } = useSelector((slice: RootState) => slice.statistics);
-  const { products, updatedProduct } = useSelector(
-    (state: RootState) => state.products
-  );
-  const { statisticsMonths, statisticsTotal } = useSelector(
+  const { statisticsMonths, statisticsTotal, relevantStatistics } = useSelector(
     (slice: RootState) => slice.statistics
   );
   const dispatch = useAppDispatch();
 
   const [labels, setLabels] = useState<string[]>([]);
-  const [statisticsRelevant, setStatisticsRelevant] =
-    useState<IRelevantStatistics | null>(null);
+
   const [optionChart, setOptionChart] = useState<IChart>({
     label: "test",
     data: [],
@@ -40,27 +33,17 @@ const ContainerControl = (props: Props) => {
     tension: 0.4,
   });
 
-  console.log(statisticsTotal);
-
-  // useEffect(() => {
-  //   dispatch(returnDefaultState());
-  // }, []);
-
   useEffect(() => {
-    if (user && products.length > 0)
-      dispatch(asyncGetStatistics(user.uid, products));
-  }, [products]);
+    if (user) dispatch(asyncGetStatistics(user.uid));
+  }, []);
 
   useEffect(() => {
     if (statisticsMonths) {
       const keys = Object.keys(statisticsMonths);
-      console.log(statisticsMonths);
-      const relevantData = getRelevantStatistics(statisticsMonths);
       const dataChart = Object.values(statisticsMonths).map(
         (month) => month.total_piece_sales
       );
       setLabels(keys);
-      setStatisticsRelevant(relevantData);
       setOptionChart((prevState) => ({ ...prevState, data: dataChart }));
     }
   }, [statisticsMonths]);
@@ -75,68 +58,68 @@ const ContainerControl = (props: Props) => {
   }
   return (
     <Container>
-      <InfoProduct className="main-graph card">
-        <ContainerInfos>
-          <Info>
-            <h3>vendidos</h3>
-            <span>
-              {statisticsTotal ? statisticsTotal.total_pieces_sales : 0}
-            </span>
-          </Info>
-          <Info>
-            <h3>disponiveis</h3>
-            <span>{statisticsTotal ? statisticsTotal.total_storage : 0}</span>
-          </Info>
-        </ContainerInfos>
-        <Info>
-          <h3>Preço de venda</h3>
-          <span>1.500</span>
-        </Info>
-      </InfoProduct>
+      <CardInfoTotal />
       <div className="cards">
-        {statisticsRelevant?.data_last_month && (
+        {relevantStatistics?.data_last_month && (
           <CardControl
+            information={CARDS_DATA.INFO_LAST_MONTH}
             showPercentage
             title="Renda total"
-            data={statisticsRelevant.data_last_month}
-            value={statisticsRelevant.data_last_month.sales_amount}
+            data={relevantStatistics.data_last_month}
+            value={relevantStatistics.data_last_month.sales_amount}
             subTitle="ultimo mes"
           />
         )}
-        {!statisticsRelevant?.data_last_month && (
+        {!relevantStatistics?.data_last_month && (
           <CardControl
+            information={CARDS_DATA.INFO_LAST_MONTH}
             alert
             showPercentage
             title="Renda total"
-            value={0}
+            value={1}
             subTitle="ultimo mes"
           />
         )}
-        {statisticsRelevant?.data_current_month && (
+        {relevantStatistics?.data_current_month && (
           <CardControl
+            information={CARDS_DATA.INFO_CURRENT_MONTH}
             showPercentage
             title="Total"
-            data={statisticsRelevant.data_current_month}
-            value={statisticsRelevant.data_current_month.sales_amount}
-            subTitle="um mes"
+            data={relevantStatistics.data_current_month}
+            value={relevantStatistics.data_current_month.sales_amount}
+            subTitle="Este mes"
           />
         )}
-        {!statisticsRelevant?.data_current_month && (
+        {!relevantStatistics?.data_current_month && (
           <CardControl
+            information={CARDS_DATA.INFO_CURRENT_MONTH}
             alert
             showPercentage
             title="Total"
-            value={0}
+            value={1}
             subTitle="um mes"
           />
         )}
-
-        <CardControl
-          showPercentage
-          title="Total"
-          value={2000}
-          subTitle="Durante 5 meses"
-        />
+        {statisticsTotal?.total_storage && (
+          <CardControl
+            information={CARDS_DATA.INFO_STORAGE}
+            showPercentage
+            title="Em estoque"
+            dataTotal={statisticsTotal}
+            value={statisticsTotal.total_storage}
+            subTitle="Total"
+          />
+        )}
+        {!statisticsTotal?.total_storage && (
+          <CardControl
+            alert
+            information={CARDS_DATA.INFO_STORAGE}
+            showPercentage
+            value={1}
+            title="Em estoque"
+            subTitle="Total"
+          />
+        )}
       </div>
       <div className="graph-line card">
         <LineChart chartData={optionsChart} />

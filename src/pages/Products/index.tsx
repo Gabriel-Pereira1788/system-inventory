@@ -24,7 +24,6 @@ const Products = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log("get products");
     if (user) dispatch(asyncLoadProducts(user.uid));
   }, [updatedProduct]);
   return (

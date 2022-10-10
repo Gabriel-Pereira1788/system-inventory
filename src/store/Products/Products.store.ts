@@ -11,6 +11,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
+import { api } from "../../api/api";
 import { db } from "../../firebase/firebase";
 import {
   IDataEdit,
@@ -21,9 +22,11 @@ import {
 import { IProduct } from "../../interfaces/IProduct/IProduct";
 import { Product } from "../../modules/Product/Product";
 import { Sale } from "../../modules/Sale/Sale";
+import { triggerGetList } from "../Notifications/Notifications.store";
 
 interface ISlice {
   products: IProduct[];
+  displayProducts: IProduct[];
   singleProduct: Product;
   loading: boolean;
   updatedProduct: boolean;
@@ -31,6 +34,7 @@ interface ISlice {
 
 const initialState: ISlice = {
   products: [],
+  displayProducts: [],
   singleProduct: {},
   loading: false,
   updatedProduct: false,
@@ -51,6 +55,7 @@ const products = createSlice({
       console.log(payload);
       state.loading = false;
       state.products = payload;
+      state.displayProducts = payload;
     },
     updateProduct(state) {
       state.loading = false;
@@ -59,9 +64,17 @@ const products = createSlice({
     updatedStorage(state) {
       state.loading = false;
     },
+
+    searchProduct(state, { payload }) {
+      const filteredProducts = state.products.filter((product) =>
+        product.name_product.includes(payload)
+      );
+      state.displayProducts = filteredProducts;
+    },
     returnStateProducts() {
       return {
         products: [],
+        displayProducts: [],
         singleProduct: {},
         loading: false,
         updatedProduct: false,
@@ -79,20 +92,15 @@ export const {
   updateProduct,
   updatedStorage,
   returnStateProducts,
+  searchProduct,
 } = products.actions;
 
 export function asyncLoadProducts(idUser: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
-    const productsRef = collection(db, "products");
-    const q = query(productsRef, where("id_user", "==", idUser));
-    const querySnapshot = await getDocs(q);
+    const { data } = await api.get(`/products/${idUser}`);
 
-    const allProducts = querySnapshot.docs.map((doc) => {
-      return Object.assign({ id_product: doc.id }, doc.data());
-    });
-
-    return dispatch(loadProductsSucess(allProducts));
+    return dispatch(loadProductsSucess(data.products));
   };
 }
 
@@ -100,21 +108,9 @@ export function asyncCreateProduct(product: IProduct) {
   return async function (dispatch: Dispatch<AnyAction>) {
     try {
       // console.log(product);
-      const { storage, id_user, price_purchased, price_saled, id_product } =
-        product;
-      dispatch(loadRequest());
 
-      const response = await addDoc(collection(db, "products"), product);
-      const dataSubmit = {
-        storage,
-        id_user,
-        id_product: response.id,
-        price_purchased,
-        price_saled,
-        date: new Date(),
-        pieces_purchased: storage,
-      };
-      await addDoc(collection(db, "purchases"), dataSubmit);
+      dispatch(loadRequest());
+      await api.post(`/create-product`, product);
 
       return dispatch(updateProduct());
     } catch (error: any) {
@@ -127,8 +123,8 @@ export function asyncDeleteProduct(idProduct: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
     try {
       dispatch(loadRequest());
-      const response = await deleteDoc(doc(db, "products", idProduct));
-      console.log(response);
+      const { data } = await api.delete(`/delete-product/${idProduct}`);
+      console.log(data);
       return dispatch(updateProduct());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
@@ -143,10 +139,7 @@ export function asyncUpdateProduct(
   return async function (dispatch: Dispatch<AnyAction>) {
     try {
       dispatch(loadRequest());
-      const response = await updateDoc(doc(db, "products", idProduct), {
-        ...newDataProduct,
-      });
-      console.log(response);
+      await api.patch(`/edit-product/${idProduct}`, newDataProduct);
       return dispatch(updateProduct());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
@@ -172,10 +165,10 @@ export function asyncPurchasedProduct(
         date: new Date(),
         ...data,
       };
-      await addDoc(collection(db, "purchases"), dataSubmit);
+      await api.post(`/purchased-product`, dataSubmit);
       product.storage = product.storage + data.pieces_purchased;
 
-      await updateDoc(doc(db, "products", id_product!), { ...product });
+      await api.patch(`/edit-product/${id_product}`, product);
       return dispatch(updateProduct());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
@@ -200,10 +193,12 @@ export function asyncSaledProduct(
         date: new Date(),
         ...data,
       };
-      await addDoc(collection(db, "sales"), dataSubmit);
+      await api.post(`/saled-product`, dataSubmit);
       product.storage = product.storage - data.pieces_saled;
 
-      await updateDoc(doc(db, "products", id_product!), { ...product });
+      if (product.storage <= 5) dispatch(triggerGetList());
+
+      await api.patch(`/edit-product/${id_product}`, product);
       return dispatch(updateProduct());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
@@ -211,48 +206,15 @@ export function asyncSaledProduct(
   };
 }
 
-export function asyncUpdateStorage(
-  data: IDataSaled | IDataPurchased,
-  product: IProduct,
-  idUser: string,
-  collectionDoc: string
-) {
+export function asyncSearchProduct(text: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
-    const { storage, id_product, price_purchased, price_saled } = product;
-    const refProduct = { ...product };
-    const dataSubmit = {
-      storage,
-      id_user: idUser,
-      id_product,
-      price_purchased,
-      price_saled,
-      date: new Date(),
-      ...data,
-    };
-
     try {
       dispatch(loadRequest());
-      await addDoc(collection(db, collectionDoc), dataSubmit);
-      if ("pieces_purchased" in data) {
-        // const newDataProduct = {
-        //   ...product,
-        //   storage: storage + data.pieces_purchased,
-        // };
-        refProduct.storage += data.pieces_purchased;
-        await updateDoc(doc(db, "products", id_product!), refProduct);
-      }
-      if ("pieces_saled" in data) {
-        // const newDataSaled = {
-        //   ...product,
-        //   storage: storage - data.pieces_saled,
-        // };
-        console.log(refProduct);
-        refProduct.storage -= data.pieces_saled;
-        await updateDoc(doc(db, "products", id_product!), refProduct);
-      }
-      return dispatch(updateProduct());
+      const { data } = await api.get(`/search-product/${text}`);
+
+      return "tet";
     } catch (error: any) {
-      dispatch(loadRequestFailed(error.message));
+      return dispatch(loadRequestFailed(error.message));
     }
   };
 }

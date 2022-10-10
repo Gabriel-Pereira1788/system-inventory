@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   Logout,
@@ -25,12 +25,18 @@ const ModalUser = ({ openModal, handleClose }: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
 
-  const handleLogoutUser = async () => {
-    await dispatch(asyncLogoutUser());
+  const cleanUp = () => {
     dispatch(returnDefaultState());
     dispatch(returnStateProducts());
+  };
+
+  const handleLogoutUser = async () => {
+    await dispatch(asyncLogoutUser());
+
+    cleanUp();
     handleClose();
   };
+
   return (
     <Modal
       open={openModal}

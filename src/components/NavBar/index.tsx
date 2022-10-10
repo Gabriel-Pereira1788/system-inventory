@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../store/store";
@@ -15,13 +15,19 @@ import {
 } from "./styles";
 import { BiUserCircle } from "react-icons/bi";
 import ModalUser from "../ModalUser";
+import CardNotifications from "../CardNotifications";
+import { asyncGetNotifications } from "../../store/Notifications/Notifications.store";
 type Props = {};
 
 const NavBar = (props: Props) => {
   const { user } = useSelector((slice: RootState) => slice.user);
+  const { notifications } = useSelector(
+    (slice: RootState) => slice.notifications
+  );
   const dispatch = useAppDispatch();
 
   const [openModalUser, setOpenModalUser] = useState(false);
+  const [openNotifications, setOpenNotifications] = useState(false);
 
   const handleToggleModal = (
     action: "open" | "close",
@@ -32,6 +38,12 @@ const NavBar = (props: Props) => {
       if (action === "close") fn(false);
     };
   };
+
+  useEffect(() => {
+    if (user) {
+      dispatch(asyncGetNotifications(user.uid));
+    }
+  }, [user]);
 
   return (
     <>
@@ -79,9 +91,17 @@ const NavBar = (props: Props) => {
             </ContainerLinks>
             <ContainerIcon>
               <li>
-                <WrapperIcon>
+                <WrapperIcon
+                  onClick={handleToggleModal("open", setOpenNotifications)}
+                >
                   <NotificationImportantIcon />
                 </WrapperIcon>
+                {openNotifications && (
+                  <CardNotifications
+                    closeCard={handleToggleModal("close", setOpenNotifications)}
+                    notifications={notifications}
+                  />
+                )}
               </li>
               <li onClick={handleToggleModal("open", setOpenModalUser)}>
                 <WrapperIcon>

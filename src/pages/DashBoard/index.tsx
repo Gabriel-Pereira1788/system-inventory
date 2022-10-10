@@ -25,14 +25,6 @@ type Props = {};
 const DashBoard = (props: Props) => {
   const { user } = useSelector((slice: RootState) => slice.user);
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (user) {
-      console.log("load products");
-      dispatch(asyncLoadProducts(user.uid));
-    }
-  }, []);
   return (
     <Container>
       <Wrapper>

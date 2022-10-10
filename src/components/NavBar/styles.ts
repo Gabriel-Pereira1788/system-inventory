@@ -29,6 +29,7 @@ export const List = styled.ul<PropsList>`
   justify-content: ${({ content }) => (content ? content : "space-between")};
   align-items: center;
   li {
+    position: relative;
     font-weight: 600;
     a {
       padding: 15px;
@@ -52,6 +53,7 @@ export const Card = styled.div`
 `;
 
 export const WrapperIcon = styled.div`
+  position: relative;
   box-shadow: 0px 2px 4px #00000024;
   display: flex;
   flex-direction: column;

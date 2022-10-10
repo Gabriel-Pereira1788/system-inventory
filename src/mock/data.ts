@@ -1,5 +1,5 @@
 import { ITestProduct } from "../interfaces/IProduct/IProduct";
-import { separatePerMonth } from "../utils/calculatePerMonth";
+// import { separatePerMonth } from "../utils/calculatePerMonth";
 
 export const dataC: ITestProduct[] = [
   {
@@ -240,20 +240,5 @@ export const dataSales = [
     date: new Date(2022, 9, 24),
   },
 ];
-
-export const dataTestPurhcased = Object.entries(separatePerMonth(dataSales))
-  .map(([key, value], index) => {
-    if (value.saled.length > 0) {
-      return {
-        id_purchased: 1,
-        id_usuario: "XJqK5w7f6uNVuMHQItpruZzrK2i1",
-        pricePurchased: 20.99,
-        purchased: 10 * index + 1,
-        date: new Date(2022, index + 1, 24),
-      };
-    }
-    return value;
-  })
-  .filter((value) => !Array.isArray(value));
 
 // console.log(dataTestPurhcased);
