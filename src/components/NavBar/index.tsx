@@ -17,11 +17,12 @@ import { BiUserCircle } from "react-icons/bi";
 import ModalUser from "../ModalUser";
 import CardNotifications from "../CardNotifications";
 import { asyncGetNotifications } from "../../store/Notifications/Notifications.store";
+import ContainerNotifications from "../ContainerNotifications";
 type Props = {};
 
 const NavBar = (props: Props) => {
   const { user } = useSelector((slice: RootState) => slice.user);
-  const { notifications } = useSelector(
+  const { notifications, triggerGetList } = useSelector(
     (slice: RootState) => slice.notifications
   );
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ const NavBar = (props: Props) => {
     if (user) {
       dispatch(asyncGetNotifications(user.uid));
     }
-  }, [user]);
+  }, [user, triggerGetList]);
 
   return (
     <>
@@ -91,17 +92,7 @@ const NavBar = (props: Props) => {
             </ContainerLinks>
             <ContainerIcon>
               <li>
-                <WrapperIcon
-                  onClick={handleToggleModal("open", setOpenNotifications)}
-                >
-                  <NotificationImportantIcon />
-                </WrapperIcon>
-                {openNotifications && (
-                  <CardNotifications
-                    closeCard={handleToggleModal("close", setOpenNotifications)}
-                    notifications={notifications}
-                  />
-                )}
+                <ContainerNotifications />
               </li>
               <li onClick={handleToggleModal("open", setOpenModalUser)}>
                 <WrapperIcon>

@@ -37,10 +37,10 @@ export const sales = createSlice({
     },
     getStatistics(state, { payload }) {
       // console.log(data_month);
+      state.loading = false;
       state.statisticsTotal = payload.dataTotal;
       state.statisticsMonths = payload.dataMonth;
       state.relevantStatistics = payload.relevantStatistics;
-      state.loading = false;
     },
     returnDefaultState() {
       return {
@@ -64,7 +64,7 @@ export function asyncGetStatistics(idUser: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
     const { data } = await api.get(`/get-statistics/${idUser}`);
-
+    console.log(data);
     return dispatch(getStatistics(data));
   };
 }

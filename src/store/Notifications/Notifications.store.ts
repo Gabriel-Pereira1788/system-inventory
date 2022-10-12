@@ -25,6 +25,10 @@ const notifications = createSlice({
       state.loading = false;
       console.log(payload);
     },
+    requestFinish(state) {
+      state.loading = false;
+      state.triggerGetList = !state.triggerGetList;
+    },
     getNotifications(state, { payload }) {
       state.notifications = payload;
     },
@@ -40,6 +44,7 @@ export const {
   loadRequest,
   loadRequestFailed,
   getNotifications,
+  requestFinish,
   triggerGetList,
 } = notifications.actions;
 
@@ -50,6 +55,21 @@ export function asyncGetNotifications(idUser: string) {
       const { data } = await api.get(`/get-notifications/${idUser}`);
       console.log(data);
       return dispatch(getNotifications(data.notifications));
+    } catch (error: any) {
+      return dispatch(loadRequestFailed(error.message));
+    }
+  };
+}
+
+export function asyncReadNotification(
+  dataRequest: INotificationsDTO,
+  id: string
+) {
+  return async function (dispatch: Dispatch<AnyAction>) {
+    try {
+      dispatch(loadRequest());
+      const { data } = await api.get(`/read-notification/${id}`);
+      return dispatch(requestFinish());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
     }

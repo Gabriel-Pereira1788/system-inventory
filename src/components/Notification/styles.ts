@@ -11,6 +11,13 @@ export const Container = styled.div`
   }
 `;
 
+export const ContainerText = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
 export const TypeNotification = styled.h3`
   font-weight: bold;
   font-size: clamp(0.5em, 1vw, 0.8em);
@@ -27,4 +34,23 @@ export const MessageNotification = styled.p`
   strong {
     color: ${({ theme }) => theme.colors.main.yellowGold};
   }
+`;
+
+export const ContainerDate = styled.div`
+  width: 100%;
+  text-align: left;
+`;
+
+export const Text = styled.span`
+  text-shadow: none;
+  color: ${({ theme }) => theme.colors.main.colorText};
+  font-size: clamp(0.5em, 1vw, 0.7em);
+`;
+
+export const Alert = styled.span`
+  border-radius: 50%;
+  margin-right: 2%;
+  width: 8px;
+  height: 8px;
+  background: red;
 `;
