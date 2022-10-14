@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.div`
   display: grid;
   width: 100%;
-  height: 400px;
+  height: 70%;
   gap: 15px;
   grid-template-columns: 1fr 2fr;
   grid-template-areas:
@@ -22,6 +23,8 @@ export const Container = styled.div`
     border-radius: 15px;
   }
   .main-graph {
+    flex-direction: column;
+    align-items: flex-start;
     grid-area: sidenav;
   }
   .cards {
@@ -35,5 +38,21 @@ export const Container = styled.div`
   }
   .graph-line {
     grid-area: content;
+  }
+
+  @media screen and (max-width: ${breakpoints.small}) {
+    grid-template-areas:
+      "nav   nav nav"
+      "sidenav   sidenav sidenav "
+      "content   content content "
+      "content   content content"
+      "content   content content"
+      "content   content content"
+      "content   content content";
+    .main-graph {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 `;

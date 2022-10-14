@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { Modal as ModalMUI, styled as styledMUI } from "@mui/material";
+import {
+  Modal as ModalMUI,
+  Paper as PaperMUI,
+  styled as styledMUI,
+} from "@mui/material";
+import breakpoints from "../../constants/breakpoints";
 
 export const WrapperIcon = styled.div`
   margin: 5% 0%;
@@ -42,4 +47,14 @@ export const Logout = styled.button`
   &:hover {
     color: ${({ theme }) => theme.colors.main.yellowGold};
   }
+`;
+
+export const Paper = styledMUI(PaperMUI)`
+  height:350px;
+  text-align:center;
+  width:30%;
+  @media screen and (max-width:${breakpoints.small}){
+    width:55%;
+  }
+
 `;

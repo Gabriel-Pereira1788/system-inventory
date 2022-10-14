@@ -21,6 +21,7 @@ export const Wrapper = styled.div`
   box-shadow: 0px 3px 10px #0000001a;
   border-radius: 10px;
   width: 18vw;
+  min-width: 150px;
   animation: ${ViewAnimation} 0.3s;
 `;
 

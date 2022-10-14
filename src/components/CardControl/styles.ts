@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 type PropsCard = {
   width?: string;
@@ -23,15 +24,19 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: ${breakpoints.medium}) {
+    justify-content: center;
+  }
 `;
 export const Info = styled.div`
+  text-align: center;
   padding: 0;
   border-radius: 0;
   box-shadow: none;
   h3 {
     width: 63px;
     color: ${({ theme }) => theme.colors.main.colorText};
-    font-size: clamp(0.2em, 1.5vw, 0.7em);
+    font-size: clamp(0.5em, 1vw, 0.7em);
   }
   span {
     color: #000;
@@ -46,6 +51,8 @@ export const Percentage = styled.div`
   justify-content: center;
   border-radius: 50%;
   padding: 10px;
+  width: 7vw;
+  min-width: 60px;
 `;
 
 export const ContainerCard = styled.div`

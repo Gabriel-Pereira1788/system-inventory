@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { Button, Modal as ModalMUI, styled as styledMUI } from "@mui/material";
+import {
+  Button,
+  Modal as ModalMUI,
+  Paper as PaperMUI,
+  styled as styledMUI,
+} from "@mui/material";
 
 export const Modal = styledMUI(ModalMUI)`
    display: flex;
@@ -34,4 +39,11 @@ export const Cancel = styled.button`
   &:hover {
     background-color: #62626296;
   }
+`;
+
+export const Paper = styledMUI(PaperMUI)`
+  height:257px;
+  tex-align:center;
+  width:28vw;
+  min-width:275px;
 `;

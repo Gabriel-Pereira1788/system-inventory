@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 type PropsInformation = {
   showInformation?: boolean;
@@ -30,6 +31,9 @@ export const ContainerTable = styled.div`
   overflow: auto;
   box-shadow: 0px 3px 10px #0000001a;
   border-radius: 0px 0px 15px 15px;
+  @media screen and (max-width: ${breakpoints.small}) {
+    height: 340px;
+  }
 
   &::-webkit-scrollbar {
     width: 7px;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.main`
   width: 100%;
@@ -16,6 +17,15 @@ export const Wrapper = styled.section`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
+  @media screen and (max-width: ${breakpoints.medium}) {
+    width: 85%;
+    margin-left: 13%;
+  }
+  @media screen and (max-width: ${breakpoints.small}) {
+    width: 95%;
+    margin-left: 0%;
+    /* justify-content: center; */
+  }
 `;
 
 export const ContainerTitle = styled.article`

@@ -19,7 +19,7 @@ const Router = (props: Props) => {
   return (
     <BrowserRouter>
       <NavBar />
-      {user && <NavVertical />}
+
       <Routes>
         <Route element={<ProtectedRoutes isDefaultRoutes />}>
           <Route path="/" element={<Home />} />
@@ -40,6 +40,7 @@ const Router = (props: Props) => {
 
         <Route path="/about" element={<About />} />
       </Routes>
+      {user && <NavVertical />}
     </BrowserRouter>
   );
 };

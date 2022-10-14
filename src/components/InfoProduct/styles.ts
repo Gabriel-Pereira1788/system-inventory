@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 type PropsInformation = {
   showInformation?: boolean;
@@ -24,6 +25,11 @@ export const ContainerInfo = styled.section<PropsInformation>`
   width: 100%;
   height: ${({ showInformation }) => (showInformation ? "316px" : "0px")};
   box-shadow: inset 0px 0px 7px 1px #00000017;
+  @media screen and (max-width: ${breakpoints.small}) {
+    .icon-inventory {
+      display: none;
+    }
+  }
 `;
 
 export const Container = styled.article`
@@ -33,12 +39,20 @@ export const Container = styled.article`
   align-items: center;
   width: 100%;
   height: 100%;
+  @media screen and (max-width: ${breakpoints.small}) {
+    justify-content: center;
+  }
 `;
 
 export const ContainerCard = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+  article {
+    @media screen and (max-width: ${breakpoints.medium}) {
+      width: 25%;
+    }
+  }
 `;
 
 export const Form = styled.form`
@@ -47,6 +61,9 @@ export const Form = styled.form`
   margin-top: 5%;
   flex-direction: column;
   align-items: flex-end;
+  @media screen and (max-width: ${breakpoints.medium}) {
+    width: 100%;
+  }
 `;
 
 export const WrapperInputs = styled.div`
@@ -73,6 +90,7 @@ export const Input = styled.input`
   color: gray;
   text-align: center;
   font-weight: bold;
+  font-size: clamp(0.6em, 0.8vw, 1em);
   width: 78%;
   border: none;
   outline: none;
@@ -87,7 +105,7 @@ export const Text = styled.span`
   width: 44%;
   font-size: clamp(0.5em, 0.8vw, 1em);
   text-align: center;
-  padding: 9px;
+  padding: 8px;
   border-radius: 8px 0px 0px 8px;
   color: #fff;
   background-color: #d1cece;
@@ -96,12 +114,16 @@ export const Text = styled.span`
 export const ConfirmButton = styled.button`
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   width: 20%;
   padding: 12px;
   background-color: #3fd77c;
   border-radius: 8px;
   color: #fff;
   margin-right: 4%;
+  span {
+    font-size: clamp(0.5em, 1vw, 1.1em);
+  }
   &:disabled {
     background-color: #d1cece;
   }

@@ -139,7 +139,10 @@ const InfoProduct = ({ showInformation, product }: Props) => {
       <ContainerInfo showInformation={showInformation}>
         {showInformation && (
           <>
-            <InventoryIcon style={{ fontSize: "8em" }} />
+            <InventoryIcon
+              style={{ fontSize: "clamp(5em,1.5vw,7em)" }}
+              className="icon-inventory"
+            />
             <Container>
               <Trash onClick={handleToggleModal("open")}>
                 <BsFillTrashFill color="red" cursor="pointer" />

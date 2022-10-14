@@ -1,6 +1,6 @@
 import React from "react";
-import { Cancel, Confirm, ContainerButtons, Modal } from "./styles";
-import { Paper, Typography } from "@mui/material";
+import { Cancel, Confirm, ContainerButtons, Modal, Paper } from "./styles";
+import { Typography } from "@mui/material";
 import { RootState, useAppDispatch } from "../../store/store";
 import { useSelector } from "react-redux";
 import { asyncDeleteProduct } from "../../store/Products/Products.store";

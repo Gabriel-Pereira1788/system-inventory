@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 type PropsList = {
   content?: string;
@@ -73,6 +74,13 @@ export const ContainerIcon = styled.div`
     cursor: pointer;
     margin-right: 10%;
   }
+  @media screen and (max-width: ${breakpoints.small}) {
+    justify-content: space-between;
+    width: 100%;
+    li {
+      margin-right: 0%;
+    }
+  }
 `;
 
 export const ContainerLinks = styled.div`
@@ -82,5 +90,9 @@ export const ContainerLinks = styled.div`
   justify-content: center;
   li {
     margin: 0% 5%;
+    font-size: clamp(0.5em, 1.3vw, 1.5em);
+  }
+  @media screen and (max-width: ${breakpoints.small}) {
+    display: none;
   }
 `;

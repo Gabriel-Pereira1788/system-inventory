@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.div`
   width: 100%;
@@ -6,11 +7,15 @@ export const Container = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 5px 15px 0px 15px;
+  font-size: 12px;
 `;
 
 export const Wrapper = styled.div`
   position: relative;
   width: 100%;
+  @media screen and (max-width: ${breakpoints.small}) {
+    width: auto;
+  }
 `;
 
 export const AnimationView = keyframes`

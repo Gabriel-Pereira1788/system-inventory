@@ -1,7 +1,5 @@
 // import { Container } from "@mui/material";
-import React, { useEffect } from "react";
-import NavVertical from "../../components/NavVertical";
-import { RootState, useAppDispatch } from "../../store/store";
+import { RootState } from "../../store/store";
 import {
   Wrapper,
   Container,
@@ -10,15 +8,9 @@ import {
   Title,
   UserName,
 } from "./styles";
-import { asyncLoadProducts } from "../../store/Products/Products.store";
+
 import { useSelector } from "react-redux";
 import ContainerControl from "../../components/ContainerControl";
-import {
-  asyncGetStatistics,
-  getStatistics,
-} from "../../store/Statistics/Statistics.store";
-import { dataSales } from "../../mock/data";
-import Loading from "../../components/Loading";
 
 type Props = {};
 

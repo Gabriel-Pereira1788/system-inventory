@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export type PropsInformation = {
   showInformation?: boolean;
@@ -20,6 +21,15 @@ export const Wrapper = styled.section`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
+  @media screen and (max-width: ${breakpoints.medium}) {
+    width: 80%;
+    margin-left: 7%;
+  }
+
+  @media screen and (max-width: ${breakpoints.small}) {
+    width: 95%;
+    margin-left: 0%;
+  }
 `;
 
 export const Thead = styled.div`
@@ -63,10 +73,11 @@ export const Table = styled.table`
 `;
 
 export const Button = styled.button`
-  width: 150px;
+  width: auto;
   transition: all 0.3s;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 13px;
   margin: 2% 0% 2% 0%;
   border-radius: 15px;
@@ -79,6 +90,9 @@ export const Button = styled.button`
 export const Text = styled.span`
   font-size: 11px;
   color: #fff;
+  @media screen and (max-width: ${breakpoints.small}) {
+    display: none;
+  }
 `;
 
 export const Circle = styled.div`

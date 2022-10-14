@@ -7,9 +7,10 @@ import {
   UserEmail,
   UserName,
   WrapperIcon,
+  Paper,
 } from "./styles";
 import { FaDoorOpen } from "react-icons/fa";
-import { Paper } from "@mui/material";
+// import { Paper } from "@mui/material";
 import { RootState, useAppDispatch } from "../../store/store";
 import { asyncLogoutUser } from "../../store/User/User.store";
 import { useSelector } from "react-redux";
@@ -44,10 +45,7 @@ const ModalUser = ({ openModal, handleClose }: Props) => {
       aria-labelledby="parent-modal-title"
       aria-describedby="parent-modal-description"
     >
-      <Paper
-        style={{ height: "350px", textAlign: "center", width: "30%" }}
-        elevation={3}
-      >
+      <Paper elevation={3}>
         <UserContainer>
           <WrapperIcon>
             <AccountCircleIcon sx={{ fontSize: 120 }} />
