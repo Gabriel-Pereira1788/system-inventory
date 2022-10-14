@@ -149,6 +149,7 @@ const InfoProduct = ({ showInformation, product }: Props) => {
               </Trash>
               <ContainerCard>
                 <CardControl
+                  information="teste"
                   showPercentage
                   width="20%"
                   title="Renda total"
@@ -156,6 +157,7 @@ const InfoProduct = ({ showInformation, product }: Props) => {
                   value={200}
                 />
                 <CardControl
+                  information="teste"
                   showPercentage
                   width="20%"
                   title="Renda total"
@@ -164,6 +166,7 @@ const InfoProduct = ({ showInformation, product }: Props) => {
                 />
                 {statisticsTotal?.total_storage && (
                   <CardControl
+                    information="teste"
                     showPercentage
                     dataTotal={statisticsTotal}
                     width="20%"

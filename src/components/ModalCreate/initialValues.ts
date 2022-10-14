@@ -5,5 +5,5 @@ export const initialValues: IProduct = {
   price_purchased: 0,
   price_saled: 0,
   storage: 0,
-  id_usuario: "",
+  id_user: "",
 };
