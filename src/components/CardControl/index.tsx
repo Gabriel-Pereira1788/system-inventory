@@ -7,6 +7,7 @@ import {
   IStatiticsTotal,
 } from "../../interfaces/Date/IDate";
 import { calculatePercentage } from "../../utils/calculatePercentage";
+import { formatCurrency } from "../../utils/transformCurrency";
 import CardInfo from "../CardInfo";
 import CardInfoTotal from "../CardInfoTotal";
 
@@ -27,6 +28,7 @@ type Props = {
   data?: IStatiticsPerMonth;
   dataTotal?: IStatiticsTotal;
   width?: string;
+  currencyValue?: boolean;
   showPercentage?: boolean;
   alert?: boolean;
   information: string;
@@ -42,6 +44,7 @@ const CardControl = ({
   showPercentage,
   alert,
   information,
+  currencyValue,
 }: Props) => {
   const [percentage, setPercentage] = useState(0);
 
@@ -65,7 +68,9 @@ const CardControl = ({
       <Wrapper>
         <Info>
           <h3>{title}</h3>
-          <span>{value}</span>
+          <span>
+            {currencyValue ? formatCurrency(value.toFixed(2), "") : value}
+          </span>
           <h3>{subTitle}</h3>
         </Info>
         {showPercentage && (

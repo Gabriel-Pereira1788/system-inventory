@@ -34,6 +34,7 @@ export const List = styled.ul<PropsList>`
     font-weight: 600;
     a {
       padding: 15px;
+      font-size: clamp(0.5em, 1.8vw, 1.2em);
       text-shadow: 0px 1px 4px #0908082b;
       color: white;
     }
@@ -90,7 +91,10 @@ export const ContainerLinks = styled.div`
   justify-content: center;
   li {
     margin: 0% 5%;
-    font-size: clamp(0.5em, 1.3vw, 1.5em);
+    /* font-size: clamp(0.5em, 1.3vw, 1.5em); */
+    a {
+      font-size: clamp(0.5em, 1.8vw, 1em);
+    }
   }
   @media screen and (max-width: ${breakpoints.small}) {
     display: none;

@@ -36,8 +36,8 @@ const Table = (props: Props) => {
       </Thead>
       <ContainerTable>
         {displayProducts.length > 0 &&
-          displayProducts.map((product) => (
-            <Row {...product} key={product.id_product} />
+          displayProducts.map((data) => (
+            <Row {...data} key={data.product.id_product} />
           ))}
       </ContainerTable>
     </>

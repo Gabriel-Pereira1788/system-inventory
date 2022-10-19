@@ -1,5 +1,11 @@
 import styled from "styled-components";
-import { styled as styledMUI, Typography, Button } from "@mui/material";
+import {
+  styled as styledMUI,
+  Typography,
+  Button,
+  Box as BoxMUI,
+} from "@mui/material";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.main`
   width: 100%;
@@ -61,4 +67,12 @@ export const ButtonC = styledMUI(Button)`
       background-color:gray;
     }
 
+`;
+
+export const Box = styledMUI(BoxMUI)`
+    width:60%;
+    padding:0px 40px;
+    @media screen and (max-width:${breakpoints.small}){
+      width:100%;
+    }
 `;

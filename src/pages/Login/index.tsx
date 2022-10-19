@@ -1,7 +1,7 @@
 import React from "react";
 
-import { ContainerTitle, Title, ButtonC } from "./style";
-import { Box, TextField, Stack } from "@mui/material";
+import { ContainerTitle, Title, ButtonC, Box } from "./style";
+import { TextField, Stack } from "@mui/material";
 import CardForm from "../../components/CardForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RootState, useAppDispatch } from "../../store/store";
@@ -25,7 +25,7 @@ const Login = (props: Props) => {
   const { loading, messageError } = useSelector(
     (state: RootState) => state.user
   );
-  console.log(messageError);
+
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<IForm> = (data: IForm) => {
     dispatch(loginUser(data));
@@ -33,12 +33,7 @@ const Login = (props: Props) => {
 
   return (
     <CardForm>
-      <Box
-        component="form"
-        width="60%"
-        sx={{ padding: "0px 40px" }}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <ContainerTitle>
           <Title>Entrar</Title>
         </ContainerTitle>

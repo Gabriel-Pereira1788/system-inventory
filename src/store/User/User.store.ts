@@ -107,7 +107,7 @@ export function registerUser({ email, password, name }: IForm) {
           type_notification: "novo usuario",
           item_alert: "user",
         });
-        console.log(userData);
+
         return dispatch(authUser(userData));
       }
     } catch (error) {
@@ -121,7 +121,6 @@ export function asyncLogoutUser() {
     try {
       dispatch(loadRequest());
       const response = await signOut(auth);
-      console.log(response);
       return dispatch(logoutUser());
     } catch (error: any) {
       console.log(error);

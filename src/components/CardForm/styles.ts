@@ -1,6 +1,22 @@
 import styled from "styled-components";
 
-import { styled as styledMUI, Typography } from "@mui/material";
+import {
+  styled as styledMUI,
+  Typography,
+  Paper as PaperMUI,
+} from "@mui/material";
+import breakpoints from "../../constants/breakpoints";
+
+export const Paper = styledMUI(PaperMUI)`
+  width:85%;
+  @media screen and (max-width:${breakpoints.small}){
+    width:65%;
+  }
+  @media screen and (max-width:${breakpoints.extraSmall}){
+    width:100%;
+  }
+
+`;
 
 export const Container = styled.main`
   width: 100%;
@@ -38,6 +54,9 @@ export const Wrapper = styled.article`
   background: ${({ theme }) => theme.colors.main.dark};
   height: 100%;
   width: 100%;
+  @media screen and (max-width: ${breakpoints.small}) {
+    display: none;
+  }
 `;
 
 export const Img = styled.img`

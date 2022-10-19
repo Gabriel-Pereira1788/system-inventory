@@ -1,13 +1,14 @@
 import React, { ReactNode } from "react";
-import { Container, ContainerTitle, Title, Wrapper, Img, Text } from "./styles";
 import {
+  Container,
+  ContainerTitle,
+  Title,
   Paper,
-  Box,
-  TextField,
-  Stack,
-  Typography,
-  Button,
-} from "@mui/material";
+  Wrapper,
+  Img,
+  Text,
+} from "./styles";
+import { Box, TextField, Stack, Typography, Button } from "@mui/material";
 import image from "../../assets/inventory_box.png";
 type Props = {
   children: ReactNode;
@@ -16,7 +17,7 @@ type Props = {
 const CardForm = ({ children }: Props) => {
   return (
     <Container>
-      <Paper sx={{ width: "85%" }}>
+      <Paper>
         <Box display="flex" height="90vh" width="100%" justifyContent="center">
           {children}
           <Wrapper>

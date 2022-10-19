@@ -3,10 +3,15 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { CellButton, CellRow, ContainerRow, Wrapper } from "./styles";
 import InfoProduct from "../InfoProduct";
 import { IProduct } from "../../interfaces/IProduct/IProduct";
+import { IRelevantStatistics } from "../../interfaces/IStatistics/IStatistics";
+import { formatCurrency } from "../../utils/transformCurrency";
 
-type Props = {};
+type Props = {
+  relevantStatistics: IRelevantStatistics;
+  product: IProduct;
+};
 
-const Row = (product: IProduct) => {
+const Row = ({ relevantStatistics, product }: Props) => {
   const { name_product, price_purchased, price_saled, storage } = product;
   const [show, setShow] = useState(false);
 
@@ -17,14 +22,18 @@ const Row = (product: IProduct) => {
     <Wrapper>
       <ContainerRow>
         <CellRow>{name_product}</CellRow>
-        <CellRow> {price_purchased} </CellRow>
-        <CellRow> {price_saled} </CellRow>
+        <CellRow> {formatCurrency(price_purchased.toFixed(2))} </CellRow>
+        <CellRow> {formatCurrency(price_saled.toFixed(2))} </CellRow>
         <CellRow> {storage} </CellRow>
         <CellButton showInformation={show} width="250px">
           <KeyboardArrowDownIcon onClick={handleShowInformation} />
         </CellButton>
       </ContainerRow>
-      <InfoProduct showInformation={show} product={product} />
+      <InfoProduct
+        showInformation={show}
+        product={product}
+        relevantStatistics={relevantStatistics}
+      />
     </Wrapper>
   );
 };

@@ -1,5 +1,5 @@
 import { Box, Modal, Paper, Stack, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Product } from "../../modules/Product/Product";
@@ -16,6 +16,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaProduct } from "../../schemas/schemaProduct";
 import { IProduct } from "../../interfaces/IProduct/IProduct";
 import { initialValues } from "./initialValues";
+import {
+  formatCurrency,
+  formatValueSubmit,
+} from "../../utils/transformCurrency";
 
 type Props = {
   openModal: boolean;
@@ -27,6 +31,8 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
+    setError,
   } = useForm({
     resolver: yupResolver(schemaProduct),
     defaultValues: initialValues,
@@ -38,12 +44,31 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
   const dispatch = useAppDispatch();
 
   const createProduct: SubmitHandler<IProduct> = async (data: IProduct) => {
+    if (data.price_purchased > data.price_saled) {
+      setError("price_purchased", {
+        message: "Preço de venda não pode ser maior que o preço de compra!",
+      });
+      return;
+    }
+
     if (user) {
       const dataComplete: IProduct = { ...data, id_user: user.uid };
       await dispatch(asyncCreateProduct(dataComplete));
 
       handleClose();
     }
+  };
+
+  const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {
+    const key = e.target.name as keyof IProduct;
+    const value = e.target.value;
+
+    if (isNaN(formatValueSubmit(value))) {
+      setValue(key, formatCurrency(value));
+      return;
+    }
+
+    setValue(key, formatCurrency(value));
   };
   return (
     <ModalForm
@@ -77,27 +102,39 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
         >
           <TextField
             type="text"
+            error={errors.name_product ? true : false}
+            helperText={errors.name_product && errors.name_product.message}
             variant="outlined"
             label="Nome do produto"
             {...register("name_product")}
           />
           <Stack spacing={3} />
           <TextField
-            type="number"
+            type="text"
+            error={errors.price_saled ? true : false}
+            helperText={errors.price_saled && errors.price_saled.message}
             variant="outlined"
             label="Preço de venda"
             {...register("price_saled")}
+            onChange={handleChangeText}
           />
           <Stack spacing={3} />
           <TextField
-            type="number"
+            type="text"
+            error={errors.price_purchased ? true : false}
+            helperText={
+              errors.price_purchased && errors.price_purchased.message
+            }
             variant="outlined"
             label="Preço de compra"
             {...register("price_purchased")}
+            onChange={handleChangeText}
           />
           <Stack spacing={3} />
           <TextField
             type="number"
+            error={errors.storage ? true : false}
+            helperText={errors.storage && errors.storage.message}
             variant="outlined"
             label="Estoque inicial"
             {...register("storage")}
