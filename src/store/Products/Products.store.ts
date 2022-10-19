@@ -20,13 +20,17 @@ import {
   IFormEdit,
 } from "../../interfaces/IForm/IFormEdit";
 import { IProduct } from "../../interfaces/IProduct/IProduct";
+import { IRelevantStatistics } from "../../interfaces/IStatistics/IStatistics";
 import { Product } from "../../modules/Product/Product";
 import { Sale } from "../../modules/Sale/Sale";
 import { triggerGetList } from "../Notifications/Notifications.store";
 
 interface ISlice {
-  products: IProduct[];
-  displayProducts: IProduct[];
+  products: { relevantStatistics: IRelevantStatistics; product: IProduct }[];
+  displayProducts: {
+    relevantStatistics: IRelevantStatistics;
+    product: IProduct;
+  }[];
   singleProduct: Product;
   loading: boolean;
   updatedProduct: boolean;
@@ -52,7 +56,6 @@ const products = createSlice({
       console.log(payload);
     },
     loadProductsSucess(state, { payload }) {
-      console.log(payload);
       state.loading = false;
       state.products = payload;
       state.displayProducts = payload;
@@ -66,7 +69,7 @@ const products = createSlice({
     },
 
     searchProduct(state, { payload }) {
-      const filteredProducts = state.products.filter((product) =>
+      const filteredProducts = state.products.filter(({ product }) =>
         product.name_product.includes(payload)
       );
       state.displayProducts = filteredProducts;
@@ -100,7 +103,7 @@ export function asyncLoadProducts(idUser: string) {
     dispatch(loadRequest());
     const { data } = await api.get(`/products/${idUser}`);
 
-    return dispatch(loadProductsSucess(data.products));
+    return dispatch(loadProductsSucess(data.dataProduct));
   };
 }
 
@@ -124,7 +127,6 @@ export function asyncDeleteProduct(idProduct: string) {
     try {
       dispatch(loadRequest());
       const { data } = await api.delete(`/delete-product/${idProduct}`);
-      console.log(data);
       return dispatch(updateProduct());
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));
@@ -195,8 +197,6 @@ export function asyncSaledProduct(
       };
       await api.post(`/saled-product`, dataSubmit);
       product.storage = product.storage - data.pieces_saled;
-
-      if (product.storage <= 5) dispatch(triggerGetList());
 
       await api.patch(`/edit-product/${id_product}`, product);
       return dispatch(updateProduct());

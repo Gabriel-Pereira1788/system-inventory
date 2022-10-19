@@ -40,7 +40,7 @@ export const Info = styled.div`
   }
   span {
     color: #000;
-    font-size: clamp(0.5em, 2.5vw, 1.5em);
+    font-size: clamp(0.5em, 2vw, 1.2em);
     font-weight: 700;
   }
 `;

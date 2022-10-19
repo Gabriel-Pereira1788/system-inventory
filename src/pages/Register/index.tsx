@@ -1,6 +1,6 @@
 import React from "react";
-import { ContainerTitle, Title, ButtonC } from "./style";
-import { Box, TextField, Stack, Button } from "@mui/material";
+import { ContainerTitle, Title, ButtonC, Box } from "./style";
+import { TextField, Stack, Button } from "@mui/material";
 import CardForm from "../../components/CardForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IForm, initialValue } from "../../interfaces/IForm/IForm";
@@ -23,7 +23,6 @@ const Register = (props: Props) => {
     resolver: yupResolver(schemaRegister),
   });
 
-  console.log(errors);
   const { loading } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
 
@@ -32,12 +31,7 @@ const Register = (props: Props) => {
   };
   return (
     <CardForm>
-      <Box
-        component="form"
-        width="60%"
-        sx={{ padding: "0px 40px" }}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <ContainerTitle>
           <Title>Junte-se a nos</Title>
         </ContainerTitle>

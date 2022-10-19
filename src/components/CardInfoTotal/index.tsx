@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { CARDS_DATA } from "../../constants/cards";
 import { RootState } from "../../store/store";
+import { formatCurrency } from "../../utils/transformCurrency";
 import CardInfo from "../CardInfo";
 import { ContainerInfos, Info, InfoProduct } from "./styles";
 
@@ -29,21 +30,25 @@ const CardInfoTotal = (props: Props) => {
       <Info>
         <h3>Preço de venda</h3>
         <span>
-          {statisticsTotal ? statisticsTotal.total_price_saled.toFixed(2) : 0}
+          {statisticsTotal
+            ? formatCurrency(statisticsTotal.total_price_saled.toFixed(2))
+            : 0}
         </span>
       </Info>
       <Info>
         <h3>Preço de compra</h3>
         <span>
           {statisticsTotal
-            ? statisticsTotal.total_price_purchased.toFixed(2)
+            ? formatCurrency(statisticsTotal.total_price_purchased.toFixed(2))
             : 0}
         </span>
       </Info>
       <Info>
         <h3>Lucro Total:</h3>
         <span>
-          {statisticsTotal ? statisticsTotal.total_sales.toFixed(2) : 0}
+          {statisticsTotal
+            ? formatCurrency(statisticsTotal.total_sales.toFixed(2))
+            : 0}
         </span>
       </Info>
     </InfoProduct>

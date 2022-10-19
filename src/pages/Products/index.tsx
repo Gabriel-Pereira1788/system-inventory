@@ -6,6 +6,7 @@ import ModalCreate from "../../components/ModalCreate";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
 import { asyncLoadProducts } from "../../store/Products/Products.store";
+import { asyncGetStatistics } from "../../store/Statistics/Statistics.store";
 type Props = {};
 
 const Products = (props: Props) => {
@@ -24,7 +25,10 @@ const Products = (props: Props) => {
   };
 
   useEffect(() => {
-    if (user) dispatch(asyncLoadProducts(user.uid));
+    if (user) {
+      dispatch(asyncGetStatistics(user.uid));
+      dispatch(asyncLoadProducts(user.uid));
+    }
   }, [updatedProduct]);
   return (
     <>

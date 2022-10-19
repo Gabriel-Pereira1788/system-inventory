@@ -34,13 +34,21 @@ import {
   asyncSaledProduct,
   asyncUpdateProduct,
 } from "../../store/Products/Products.store";
+import { IRelevantStatistics } from "../../interfaces/IStatistics/IStatistics";
+import { CARDS_DATA, CARDS_DATA_PRODUCT } from "../../constants/cards";
+import { triggerGetList } from "../../store/Notifications/Notifications.store";
 
 type Props = {
   showInformation: boolean;
   product: IProduct;
+  relevantStatistics: IRelevantStatistics;
 };
 
-const InfoProduct = ({ showInformation, product }: Props) => {
+const InfoProduct = ({
+  showInformation,
+  product,
+  relevantStatistics,
+}: Props) => {
   const { user } = useSelector((state: RootState) => state.user);
   const { loading } = useSelector((state: RootState) => state.products);
   const { statisticsTotal } = useSelector(
@@ -61,8 +69,6 @@ const InfoProduct = ({ showInformation, product }: Props) => {
     defaultValues: defaultEditForm,
     resolver: yupResolver(schemaEdit),
   });
-
-  console.log(errors);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -104,7 +110,6 @@ const InfoProduct = ({ showInformation, product }: Props) => {
         id_user: user.uid,
         ...cleanData.dataEdit,
       };
-      console.log(dataTest);
       dispatch(asyncUpdateProduct(id_product!, dataTest));
     }
     if (notEmptyDataPurchased && user) {
@@ -114,6 +119,7 @@ const InfoProduct = ({ showInformation, product }: Props) => {
     }
     if (notEmptyDataSaled && user) {
       dispatch(asyncSaledProduct(cleanData.dataSaled, refProduct, user.uid));
+      dispatch(triggerGetList());
     }
   };
 
@@ -148,25 +154,53 @@ const InfoProduct = ({ showInformation, product }: Props) => {
                 <BsFillTrashFill color="red" cursor="pointer" />
               </Trash>
               <ContainerCard>
-                <CardControl
-                  information="teste"
-                  showPercentage
-                  width="20%"
-                  title="Renda total"
-                  subTitle="Ultimo més"
-                  value={200}
-                />
-                <CardControl
-                  information="teste"
-                  showPercentage
-                  width="20%"
-                  title="Renda total"
-                  subTitle="Més atual"
-                  value={200}
-                />
+                {relevantStatistics.data_last_month && (
+                  <CardControl
+                    information={CARDS_DATA_PRODUCT.INFO_LAST_MONTH}
+                    showPercentage
+                    width="20%"
+                    title="Renda total"
+                    subTitle="Ultimos mes"
+                    data={relevantStatistics.data_last_month}
+                    value={relevantStatistics.data_last_month.sales_amount}
+                  />
+                )}
+                {!relevantStatistics?.data_last_month && (
+                  <CardControl
+                    information={CARDS_DATA_PRODUCT.INFO_LAST_MONTH}
+                    width="20%"
+                    alert
+                    showPercentage
+                    title="Renda total"
+                    value={1}
+                    subTitle="ultimo mes"
+                  />
+                )}
+                {relevantStatistics?.data_current_month && (
+                  <CardControl
+                    information={CARDS_DATA_PRODUCT.INFO_CURRENT_MONTH}
+                    showPercentage
+                    width="20%"
+                    title="Total"
+                    data={relevantStatistics.data_current_month}
+                    value={relevantStatistics.data_current_month.sales_amount}
+                    subTitle="Este mes"
+                  />
+                )}
+                {!relevantStatistics?.data_current_month && (
+                  <CardControl
+                    information={CARDS_DATA_PRODUCT.INFO_CURRENT_MONTH}
+                    alert
+                    width="20%"
+                    showPercentage
+                    title="Total"
+                    value={1}
+                    subTitle="um mes"
+                  />
+                )}
                 {statisticsTotal?.total_storage && (
                   <CardControl
-                    information="teste"
+                    information={CARDS_DATA_PRODUCT.INFO_STORAGE}
                     showPercentage
                     dataTotal={statisticsTotal}
                     width="20%"

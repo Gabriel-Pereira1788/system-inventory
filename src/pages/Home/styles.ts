@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.main`
   position: absolute;
@@ -15,6 +16,9 @@ export const Section = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  @media screen and (max-width: ${breakpoints.small}) {
+    height: 100vh;
+  }
 `;
 
 export const ContainerImage = styled.div`
@@ -25,8 +29,11 @@ export const ContainerImage = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 500px;
+  width: 44vw;
   margin-bottom: 5%;
+  @media screen and (max-width: ${breakpoints.small}) {
+    width: 70vw;
+  }
 `;
 export const ContainerText = styled.article`
   margin-bottom: 10%;
@@ -35,14 +42,23 @@ export const ContainerText = styled.article`
   justify-content: space-evenly;
   align-items: flex-start;
   height: 100%;
+  @media screen and (max-width: ${breakpoints.small}) {
+    align-items: center;
+    a {
+      margin-top: 3%;
+    }
+  }
 `;
 
 export const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.main.yellowGold};
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 export const Text = styled.h3`
   text-shadow: 1px 2px 6px #090808a1;
-  font-size: 3em;
+  font-size: clamp(0.5em, 5.5vw, 3em);
   color: white;
   font-weight: bold;
   width: 75%;
@@ -54,6 +70,9 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: ${breakpoints.small}) {
+    flex-direction: column;
+  }
 `;
 
 export const WrapperMain = styled.section`
@@ -73,6 +92,9 @@ export const BackgroundAbout = styled.div`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  @media screen and (max-width: ${breakpoints.small}) {
+    width: 90%;
+  }
 `;
 export const AboutUs = styled.article`
   display: flex;
@@ -84,6 +106,6 @@ export const AboutUs = styled.article`
 `;
 
 export const TitleAbout = styled.h3`
-  font-size: 2.5em;
+  font-size: clamp(0.5em, 5.5vw, 3em);
   width: 50%;
 `;

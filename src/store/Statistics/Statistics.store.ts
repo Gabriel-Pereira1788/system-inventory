@@ -64,7 +64,7 @@ export function asyncGetStatistics(idUser: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
     dispatch(loadRequest());
     const { data } = await api.get(`/get-statistics/${idUser}`);
-    console.log(data);
+
     return dispatch(getStatistics(data));
   };
 }

@@ -64,6 +64,7 @@ const ContainerControl = (props: Props) => {
           <CardControl
             information={CARDS_DATA.INFO_LAST_MONTH}
             showPercentage
+            currencyValue
             title="Renda total"
             data={relevantStatistics.data_last_month}
             value={relevantStatistics.data_last_month.sales_amount}
@@ -80,17 +81,17 @@ const ContainerControl = (props: Props) => {
             subTitle="ultimo mes"
           />
         )}
-        {relevantStatistics?.data_current_month && (
+        {relevantStatistics?.data_current_month ? (
           <CardControl
             information={CARDS_DATA.INFO_CURRENT_MONTH}
             showPercentage
+            currencyValue
             title="Total"
             data={relevantStatistics.data_current_month}
             value={relevantStatistics.data_current_month.sales_amount}
             subTitle="Este mes"
           />
-        )}
-        {!relevantStatistics?.data_current_month && (
+        ) : (
           <CardControl
             information={CARDS_DATA.INFO_CURRENT_MONTH}
             alert
@@ -100,7 +101,8 @@ const ContainerControl = (props: Props) => {
             subTitle="um mes"
           />
         )}
-        {statisticsTotal?.total_storage && (
+
+        {statisticsTotal?.total_storage ? (
           <CardControl
             information={CARDS_DATA.INFO_STORAGE}
             showPercentage
@@ -109,13 +111,11 @@ const ContainerControl = (props: Props) => {
             value={statisticsTotal.total_storage}
             subTitle="Total"
           />
-        )}
-        {!statisticsTotal?.total_storage && (
+        ) : (
           <CardControl
-            alert
             information={CARDS_DATA.INFO_STORAGE}
             showPercentage
-            value={1}
+            value={0}
             title="Em estoque"
             subTitle="Total"
           />
