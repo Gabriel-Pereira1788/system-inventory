@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+type PropsIcon = {
+  width: string;
+};
+
 export const Container = styled.section`
   width: 100%;
   height: 100%;
@@ -15,4 +19,16 @@ export const Grid = styled.article`
   gap: 10px;
 `;
 
-export const Tecnologie = styled.div``;
+export const Icon = styled.img<PropsIcon>`
+  width: ${({ width }) => width};
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
+export const Tecnologie = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.main`
   width: 100%;
@@ -10,12 +11,16 @@ export const Container = styled.main`
 `;
 
 export const Wrapper = styled.section`
-  width: 51%;
+  width: 65%;
   /* height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
+  margin-bottom: 5%;
+  @media screen and (max-width: ${breakpoints.small}) {
+    width: 100%;
+  }
 `;
 
 export const Text = styled.p`
@@ -28,12 +33,19 @@ export const Text = styled.p`
   padding: 15px;
 `;
 
+export const ContainerTitle = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Title = styled.h3`
   font-size: clamp(0.5em, 2vw, 1.8em);
+  padding-bottom: 15px;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.main.yellowGold};
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.main.yellowGold};
-  width: 100%;
-  text-align: center;
+  color: #000;
   margin: 3% 0%;
 `;
 

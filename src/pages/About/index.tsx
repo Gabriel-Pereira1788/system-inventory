@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import about from "../../constants/about";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Card, Container, Text, Title, Wrapper } from "./styles";
+import {
+  Card,
+  Container,
+  ContainerTitle,
+  Text,
+  Title,
+  Wrapper,
+} from "./styles";
 import carouselData from "../../mock/carouselData";
 import Carousel from "../../components/Carousel";
 import UsedTecnologies from "../../components/UsedTecnologies";
@@ -13,8 +20,10 @@ const renderData = (dataRender: { title: string; content: string }) => {
   if (dataRender.title === "Tecnologias") {
     return (
       <>
-        <Title>{dataRender.title}</Title>
-        <Text>Teste render condicional</Text>
+        <ContainerTitle>
+          <Title>{dataRender.title}</Title>
+        </ContainerTitle>
+        <Text>{dataRender.content}</Text>
         <UsedTecnologies />
       </>
     );
@@ -22,7 +31,9 @@ const renderData = (dataRender: { title: string; content: string }) => {
 
   return (
     <>
-      <Title>{dataRender.title}</Title>
+      <ContainerTitle>
+        <Title>{dataRender.title}</Title>
+      </ContainerTitle>
       <Text>{dataRender.content}</Text>
     </>
   );
@@ -33,7 +44,11 @@ const About = (props: Props) => {
     <>
       <Container>
         <Wrapper>
-          <Carousel dataRender={carouselData} renderMethod={renderData} />
+          <Carousel
+            dataRender={carouselData}
+            renderMethod={renderData}
+            autoSlide
+          />
         </Wrapper>
       </Container>
     </>
