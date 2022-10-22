@@ -8,17 +8,28 @@ import {
   asyncSearchProduct,
   searchProduct,
 } from "../../store/Products/Products.store";
+import Loading from "../Loading";
 
 type Props = {};
 
 const Table = (props: Props) => {
-  const { displayProducts } = useSelector((slice: RootState) => slice.products);
+  const { displayProducts, loading } = useSelector(
+    (slice: RootState) => slice.products
+  );
   const dispatch = useAppDispatch();
 
   const handleSearchProduct = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     dispatch(searchProduct(value));
   };
+
+  if (loading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>

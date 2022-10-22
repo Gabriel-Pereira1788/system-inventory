@@ -26,7 +26,7 @@ const ContainerControl = (props: Props) => {
   const [labels, setLabels] = useState<string[]>([]);
 
   const [optionChart, setOptionChart] = useState<IChart>({
-    label: "test",
+    label: "Vendas mensais",
     data: [],
     borderColor: "#ECD64F",
     backgroundColor: "#ECD64F",

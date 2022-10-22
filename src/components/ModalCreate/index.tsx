@@ -11,6 +11,7 @@ import {
   Exit,
   ButtonExit,
   ModalForm,
+  Form,
 } from "./styles";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaProduct } from "../../schemas/schemaProduct";
@@ -90,16 +91,7 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
         >
           Adicionar Produto
         </Typography>
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-evenly"
-          padding="35px"
-          height="85%"
-          width="29vw"
-          component="form"
-          onSubmit={handleSubmit(createProduct)}
-        >
+        <Form component="form" onSubmit={handleSubmit(createProduct)}>
           <TextField
             type="text"
             error={errors.name_product ? true : false}
@@ -149,7 +141,7 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
               Aguarde...
             </ConfirmButton>
           )}
-        </Box>
+        </Form>
       </Paper>
     </ModalForm>
   );

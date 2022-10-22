@@ -15,6 +15,7 @@ export const Card = styled.article<PropsCard>`
   width: ${({ width }) => (width ? width : "30%")};
   border-radius: 15px;
   box-shadow: 0px 3px 10px #0000001a;
+
   /* overflow: hidden; */
 `;
 

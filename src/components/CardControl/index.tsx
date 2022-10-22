@@ -32,6 +32,7 @@ type Props = {
   showPercentage?: boolean;
   alert?: boolean;
   information: string;
+  identifier?: string;
 };
 
 const CardControl = ({
@@ -45,6 +46,7 @@ const CardControl = ({
   alert,
   information,
   currencyValue,
+  identifier,
 }: Props) => {
   const [percentage, setPercentage] = useState(0);
 
@@ -63,7 +65,7 @@ const CardControl = ({
     }
   }, [data, dataTotal]);
   return (
-    <Card width={width}>
+    <Card width={width} className={identifier ? identifier : "teste"}>
       <CardInfo information={information} />
       <Wrapper>
         <Info>

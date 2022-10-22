@@ -23,12 +23,16 @@ export const ContainerInfo = styled.section<PropsInformation>`
   transition: all 0.3s;
   display: flex;
   width: 100%;
-  height: ${({ showInformation }) => (showInformation ? "316px" : "0px")};
+  height: ${({ showInformation }) => (showInformation ? "360px" : "0px")};
   box-shadow: inset 0px 0px 7px 1px #00000017;
   @media screen and (max-width: ${breakpoints.small}) {
     .icon-inventory {
       display: none;
     }
+  }
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    height: ${({ showInformation }) => (showInformation ? "416px" : "0px")};
+    padding: ${({ showInformation }) => (showInformation ? "6px" : "0px")};
   }
 `;
 
@@ -40,7 +44,7 @@ export const Container = styled.article`
   width: 100%;
   height: 100%;
   @media screen and (max-width: ${breakpoints.small}) {
-    justify-content: center;
+    justify-content: space-evenly;
   }
 `;
 
@@ -51,6 +55,14 @@ export const ContainerCard = styled.div`
   article {
     @media screen and (max-width: ${breakpoints.medium}) {
       width: 25%;
+    }
+    @media screen and (max-width: ${breakpoints.extraSmall}) {
+      width: 40%;
+    }
+  }
+  .card-last-month {
+    @media screen and (max-width: ${breakpoints.extraSmall}) {
+      display: none;
     }
   }
 `;
@@ -64,6 +76,10 @@ export const Form = styled.form`
   @media screen and (max-width: ${breakpoints.medium}) {
     width: 100%;
   }
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    /* justify-content: center; */
+    align-items: center;
+  }
 `;
 
 export const WrapperInputs = styled.div`
@@ -72,6 +88,11 @@ export const WrapperInputs = styled.div`
   align-items: center;
   justify-content: center;
   gap: 14px;
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    grid-template-columns: auto;
+    width: 100%;
+    margin-bottom: 3%;
+  }
 `;
 
 export const Label = styled.label`
@@ -122,9 +143,13 @@ export const ConfirmButton = styled.button`
   color: #fff;
   margin-right: 4%;
   span {
-    font-size: clamp(0.5em, 1vw, 1.1em);
+    font-size: clamp(0.8em, 1.3vw, 1.1em);
   }
   &:disabled {
     background-color: #d1cece;
+  }
+
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    width: 50%;
   }
 `;

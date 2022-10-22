@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.div`
   display: flex;
@@ -33,6 +34,9 @@ export const MessageNotification = styled.p`
   text-align: left;
   strong {
     color: ${({ theme }) => theme.colors.main.yellowGold};
+  }
+  @media screen and (max-width: ${breakpoints.small}) {
+    font-size: clamp(0.5em, 2.5vw, 1.5em);
   }
 `;
 

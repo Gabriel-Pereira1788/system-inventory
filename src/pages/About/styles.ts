@@ -24,13 +24,16 @@ export const Wrapper = styled.section`
 `;
 
 export const Text = styled.p`
-  font-size: clamp(0.5em, 1.5vw, 1.8em);
+  font-size: clamp(0.5em, 1.5vw, 1em);
   font-weight: 400;
   color: ${({ theme }) => theme.colors.main.graySmooth};
   line-height: 40px;
   text-shadow: 0px 1px 2px #00000030;
   text-align: justify;
   padding: 15px;
+  @media screen and (max-width: ${breakpoints.small}) {
+    font-size: clamp(0.5em, 2.5vw, 2.5em);
+  }
 `;
 
 export const ContainerTitle = styled.div`

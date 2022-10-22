@@ -48,6 +48,18 @@ export const ContainerTable = styled.div`
     border-radius: 20px;
     border: 3px solid #ffa50000;
   }
+
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: ${({ theme }) => theme.colors.main.yellowGold};
+      border-radius: 20px;
+      border: 2px solid #ffa50000;
+    }
+  }
 `;
 
 export const ContainerRow = styled.article`
@@ -88,9 +100,13 @@ export const Column = styled.p<PropsColumn>`
   width: ${({ width }) => (width ? width : "200px")};
   text-align: center;
   font-weight: bold;
-  font-size: clamp(0.5em, 1.2vw, 1em);
+  font-size: clamp(1em, 1.8vw, 1.2em);
   color: #0000002e;
   padding: 9px;
+
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    font-size: clamp(1em, 2.5vw, 2.5em);
+  }
 `;
 
 export const LabelSearch = styled.label`
@@ -103,6 +119,9 @@ export const LabelSearch = styled.label`
   background: #cbc5c517;
   svg {
     color: #000;
+    @media screen and (max-width: ${breakpoints.extraSmall}) {
+      width: 15px;
+    }
   }
 `;
 
@@ -111,6 +130,9 @@ export const Search = styled.input`
   border: none;
   outline: none;
   background: none;
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    width: 50px;
+  }
 `;
 
 export const Wrapper = styled.section`

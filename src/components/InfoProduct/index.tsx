@@ -156,6 +156,7 @@ const InfoProduct = ({
               <ContainerCard>
                 {relevantStatistics.data_last_month && (
                   <CardControl
+                    identifier="card-last-month"
                     information={CARDS_DATA_PRODUCT.INFO_LAST_MONTH}
                     showPercentage
                     width="20%"
@@ -167,6 +168,7 @@ const InfoProduct = ({
                 )}
                 {!relevantStatistics?.data_last_month && (
                   <CardControl
+                    identifier="card-last-month"
                     information={CARDS_DATA_PRODUCT.INFO_LAST_MONTH}
                     width="20%"
                     alert

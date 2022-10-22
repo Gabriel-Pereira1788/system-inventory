@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const ContainerCards = styled.section`
   position: relative;
@@ -43,6 +44,12 @@ export const Button = styled.button`
   box-shadow: none;
   color: ${({ theme }) => theme.colors.main.yellowGold};
   font-size: 1.5em;
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    padding: 15px 0px;
+    svg {
+      font-size: 2rem;
+    }
+  }
 `;
 
 export const ContainerCarousel = styled.div`

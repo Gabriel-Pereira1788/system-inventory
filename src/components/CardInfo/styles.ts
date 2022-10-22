@@ -39,6 +39,10 @@ export const Card = styled.aside`
   border-radius: 15px;
   box-shadow: 0px 3px 10px #0000001a;
   animation: ${AnimationView} 0.3s;
+  @media screen and (max-width: ${breakpoints.extraSmall}) {
+    width: 120px;
+    right: -76%;
+  }
 `;
 
 export const ContainerInfo = styled.article`

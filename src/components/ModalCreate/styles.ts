@@ -1,5 +1,7 @@
-import { Button, Modal, styled as styledMUI } from "@mui/material";
+import { Button, Modal, styled as styledMUI, Box } from "@mui/material";
+
 import styled from "styled-components";
+import breakpoints from "../../constants/breakpoints";
 
 export const Container = styled.section`
   display: flex;
@@ -46,3 +48,15 @@ export const ModalForm = styledMUI(Modal)`
   align-items: center;
   justify-content: center;
 `;
+
+export const Form = styledMUI(Box)`
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    padding:35px;
+    height:85%;
+    width:29vw;
+    @media screen and (max-width:${breakpoints.extraSmall}){
+      width:85vw;
+    }
+  `;
