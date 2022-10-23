@@ -96,7 +96,7 @@ export const WrapperInputs = styled.div`
   justify-content: space-between;
   @media screen and (max-width: ${breakpoints.extraSmall}) {
     grid-template-columns: auto;
-    width: 100%;
+    width: auto;
     margin-bottom: 3%;
   }
 `;
