@@ -65,7 +65,7 @@ export const ContainerCard = styled.div`
 export const CardAlert = styled.article`
   backdrop-filter: blur(2px);
   position: absolute;
-  width: 100%;
+  width: 100% !important;
   display: flex;
   flex-direction: column;
   justify-content: center;

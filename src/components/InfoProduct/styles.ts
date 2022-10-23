@@ -25,6 +25,10 @@ export const ContainerInfo = styled.section<PropsInformation>`
   width: 100%;
   height: ${({ showInformation }) => (showInformation ? "360px" : "0px")};
   box-shadow: inset 0px 0px 7px 1px #00000017;
+
+  @media screen and (min-width: ${breakpoints.large}) {
+    height: ${({ showInformation }) => (showInformation ? "45vh" : "0px")};
+  }
   @media screen and (max-width: ${breakpoints.small}) {
     .icon-inventory {
       display: none;
@@ -88,6 +92,8 @@ export const WrapperInputs = styled.div`
   align-items: center;
   justify-content: center;
   gap: 14px;
+  width: 100%;
+  justify-content: space-between;
   @media screen and (max-width: ${breakpoints.extraSmall}) {
     grid-template-columns: auto;
     width: 100%;
