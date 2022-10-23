@@ -11,6 +11,7 @@ export const formatCurrency = (value: string, currency: string = "R$") => {
 
 export const formatValueSubmit = (value: string) => {
   const newValue = value
+    .trim()
     .replaceAll("R$", "")
     .replaceAll(".", "")
     .replaceAll(",", ".");

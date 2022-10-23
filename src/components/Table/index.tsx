@@ -13,7 +13,7 @@ import Loading from "../Loading";
 type Props = {};
 
 const Table = (props: Props) => {
-  const { displayProducts, loading } = useSelector(
+  const { displayProducts, loadingProducts } = useSelector(
     (slice: RootState) => slice.products
   );
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const Table = (props: Props) => {
     dispatch(searchProduct(value));
   };
 
-  if (loading) {
+  if (loadingProducts) {
     return (
       <>
         <Loading />

@@ -1,5 +1,5 @@
 import { Box, Modal, Paper, Stack, TextField, Typography } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Product } from "../../modules/Product/Product";
@@ -34,6 +34,7 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
     handleSubmit,
     setValue,
     setError,
+    reset,
   } = useForm({
     resolver: yupResolver(schemaProduct),
     defaultValues: initialValues,
@@ -57,6 +58,7 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
       await dispatch(asyncCreateProduct(dataComplete));
 
       handleClose();
+      reset();
     }
   };
 
@@ -64,13 +66,15 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
     const key = e.target.name as keyof IProduct;
     const value = e.target.value;
 
-    if (isNaN(formatValueSubmit(value))) {
-      setValue(key, formatCurrency(value));
+    if (!value || isNaN(formatValueSubmit(value))) {
+      console.log("teste");
+      setValue(key, formatCurrency("0"));
       return;
     }
 
     setValue(key, formatCurrency(value));
   };
+
   return (
     <ModalForm
       open={openModal}

@@ -169,6 +169,7 @@ const InfoProduct = ({
                 {!relevantStatistics?.data_last_month && (
                   <CardControl
                     identifier="card-last-month"
+                    currencyValue
                     information={CARDS_DATA_PRODUCT.INFO_LAST_MONTH}
                     width="20%"
                     alert
@@ -182,6 +183,7 @@ const InfoProduct = ({
                   <CardControl
                     information={CARDS_DATA_PRODUCT.INFO_CURRENT_MONTH}
                     showPercentage
+                    currencyValue
                     width="20%"
                     title="Total"
                     data={relevantStatistics.data_current_month}

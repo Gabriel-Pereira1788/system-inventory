@@ -7,12 +7,14 @@ type Props<T> = {
   dataRender: T[];
   renderMethod: (dataRender: T) => JSX.Element;
   autoSlide?: boolean;
+  time?: number;
 };
 
 export default function Carousel<T extends Object>({
   dataRender,
   renderMethod,
   autoSlide,
+  time = 7000,
 }: Props<T>) {
   const [currentPosition, setCurrentPosition] = useState(1);
   const refTimeout = useRef<NodeJS.Timeout>();
@@ -43,7 +45,7 @@ export default function Carousel<T extends Object>({
     if (autoSlide) {
       refTimeout.current = setTimeout(() => {
         handleToggleSlide("next")();
-      }, 10000);
+      }, time);
     }
 
     return () => clearInterval(refTimeout.current);

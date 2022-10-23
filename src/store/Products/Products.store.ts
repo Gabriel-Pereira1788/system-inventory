@@ -33,6 +33,7 @@ interface ISlice {
   }[];
   singleProduct: Product;
   loading: boolean;
+  loadingProducts: boolean;
   updatedProduct: boolean;
 }
 
@@ -41,6 +42,7 @@ const initialState: ISlice = {
   displayProducts: [],
   singleProduct: {},
   loading: false,
+  loadingProducts: false,
   updatedProduct: false,
 };
 
@@ -51,12 +53,17 @@ const products = createSlice({
     loadRequest(state) {
       state.loading = true;
     },
+    loadProducts(state) {
+      state.loadingProducts = true;
+    },
     loadRequestFailed(state, { payload }) {
       state.loading = false;
+      state.loadingProducts = false;
       console.log(payload);
     },
     loadProductsSucess(state, { payload }) {
       state.loading = false;
+      state.loadingProducts = false;
       state.products = payload;
       state.displayProducts = payload;
     },
@@ -80,6 +87,7 @@ const products = createSlice({
         displayProducts: [],
         singleProduct: {},
         loading: false,
+        loadingProducts: false,
         updatedProduct: false,
       };
     },
@@ -91,6 +99,7 @@ export default products.reducer;
 export const {
   loadProductsSucess,
   loadRequest,
+  loadProducts,
   loadRequestFailed,
   updateProduct,
   updatedStorage,
@@ -100,7 +109,7 @@ export const {
 
 export function asyncLoadProducts(idUser: string) {
   return async function (dispatch: Dispatch<AnyAction>) {
-    dispatch(loadRequest());
+    dispatch(loadProducts());
     const { data } = await api.get(`/products/${idUser}`);
 
     return dispatch(loadProductsSucess(data.dataProduct));
