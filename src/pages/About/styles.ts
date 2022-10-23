@@ -34,6 +34,9 @@ export const Text = styled.p`
   @media screen and (max-width: ${breakpoints.small}) {
     font-size: clamp(0.5em, 2.5vw, 2.5em);
   }
+  @media screen and (min-width: ${breakpoints.large}) {
+    font-size: clamp(0.5em, 2.5vw, 1.5em);
+  }
 `;
 
 export const ContainerTitle = styled.div`

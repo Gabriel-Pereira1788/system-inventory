@@ -157,6 +157,7 @@ const InfoProduct = ({
                 {relevantStatistics.data_last_month && (
                   <CardControl
                     identifier="card-last-month"
+                    currencyValue
                     information={CARDS_DATA_PRODUCT.INFO_LAST_MONTH}
                     showPercentage
                     width="20%"
