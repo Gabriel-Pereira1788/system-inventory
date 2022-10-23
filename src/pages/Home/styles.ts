@@ -11,7 +11,7 @@ export const Container = styled.main`
 export const Section = styled.section`
   background-color: ${({ theme }) => theme.colors.main.dark};
   width: 100%;
-  height: 600px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
