@@ -42,7 +42,6 @@ const NavBar = (props: Props) => {
 
   useEffect(() => {
     if (user) {
-      console.log("get");
       dispatch(asyncGetNotifications(user.uid));
     }
   }, [user, triggerGetList]);

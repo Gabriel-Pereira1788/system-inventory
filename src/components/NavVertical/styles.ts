@@ -6,7 +6,7 @@ export const Wrapper = styled.section`
   position: fixed;
   top: 0;
   height: 100vh;
-  width: 10vw;
+  width: 8.5vw;
   min-width: 80px;
   background-color: #fff;
   flex-direction: column;

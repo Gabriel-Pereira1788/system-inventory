@@ -53,7 +53,6 @@ export function asyncGetNotifications(idUser: string) {
     try {
       dispatch(loadRequest());
       const { data } = await api.get(`/get-notifications/${idUser}`);
-      console.log(data);
       return dispatch(getNotifications(data.notifications));
     } catch (error: any) {
       return dispatch(loadRequestFailed(error.message));

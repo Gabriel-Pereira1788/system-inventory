@@ -36,7 +36,6 @@ export const sales = createSlice({
       state.updated = false;
     },
     getStatistics(state, { payload }) {
-      // console.log(data_month);
       state.loading = false;
       state.statisticsTotal = payload.dataTotal;
       state.statisticsMonths = payload.dataMonth;

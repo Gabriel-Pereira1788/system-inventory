@@ -67,7 +67,6 @@ const ModalCreate = ({ openModal, handleClose }: Props) => {
     const value = e.target.value;
 
     if (!value || isNaN(formatValueSubmit(value))) {
-      console.log("teste");
       setValue(key, formatCurrency("0"));
       return;
     }

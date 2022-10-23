@@ -27,7 +27,7 @@ export const Thead = styled.div`
 export const ContainerTable = styled.div`
   background-color: #fff;
   width: 100%;
-  height: 400px;
+  height: 62vh;
   overflow: auto;
   box-shadow: 0px 3px 10px #0000001a;
   border-radius: 0px 0px 15px 15px;

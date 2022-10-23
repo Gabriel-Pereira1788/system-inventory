@@ -45,7 +45,6 @@ const user = createSlice({
     loadRequestFailed(state, { payload }: { payload: string }) {
       state.loading = false;
       state.requestSucess = false;
-      console.log(payload);
       if (payload.includes("user-not-found")) {
         state.messageError = "Usuario não encontrado.";
       }
