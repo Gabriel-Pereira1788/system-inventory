@@ -82,5 +82,5 @@ export const Error = styled.p`
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
-  font-size: clamp(0.5em, 1.5vw, 1em);
+  font-size: clamp(0.3em, 1.5vw, 1em);
 `;
