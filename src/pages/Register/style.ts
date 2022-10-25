@@ -76,3 +76,11 @@ export const Box = styledMUI(BoxMUI)`
       width:100%;
     }
 `;
+
+export const Error = styled.p`
+  color: #ff00009e;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: clamp(0.5em, 1.5vw, 1em);
+`;

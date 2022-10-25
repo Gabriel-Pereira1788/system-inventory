@@ -1,5 +1,5 @@
 import React from "react";
-import { ContainerTitle, Title, ButtonC, Box } from "./style";
+import { ContainerTitle, Title, ButtonC, Box, Error } from "./style";
 import { TextField, Stack, Button } from "@mui/material";
 import CardForm from "../../components/CardForm";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -23,7 +23,9 @@ const Register = (props: Props) => {
     resolver: yupResolver(schemaRegister),
   });
 
-  const { loading } = useSelector((state: RootState) => state.user);
+  const { loading, messageError } = useSelector(
+    (state: RootState) => state.user
+  );
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<IForm> = (data: IForm) => {
@@ -68,6 +70,7 @@ const Register = (props: Props) => {
             label="Confirmar senha"
             {...register("confirmPassword")}
           />
+          {messageError && <Error>{messageError}</Error>}
           {!loading && <ButtonC type="submit">Registar-se</ButtonC>}
           {loading && (
             <ButtonC type="submit" disabled>

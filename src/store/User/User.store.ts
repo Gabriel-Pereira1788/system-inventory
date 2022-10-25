@@ -51,6 +51,9 @@ const user = createSlice({
       if (payload.includes("wrong-password")) {
         state.messageError = "Senha errada.";
       }
+      if (payload.includes("email")) {
+        state.messageError = "Email ja em uso.";
+      }
     },
     authUser(state, { payload }) {
       state.user = payload;
@@ -111,6 +114,8 @@ export function registerUser({ email, password, name }: IForm) {
       }
     } catch (error) {
       console.log(error);
+      const { message } = error as FirebaseError;
+      return dispatch(loadRequestFailed(message));
     }
   };
 }
